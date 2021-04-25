@@ -3,8 +3,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class Hotels(models.Model):
+class Hotel(models.Model):
     #h_id,h_name,owner ,location,rooms
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30,null=True)
     owner = models.CharField(max_length=20)
     location = models.CharField(max_length=50)
@@ -14,7 +15,7 @@ class Hotels(models.Model):
         return self.name
 
 
-class Rooms(models.Model):
+class Room(models.Model):
     ROOM_STATUS = ( 
     ("1", "available"), 
     ("2", "not available"),    
@@ -27,11 +28,12 @@ class Rooms(models.Model):
     ) 
 
     #type,no_of_rooms,capacity,prices,Hotel
+    id = models.AutoField(primary_key=True)
     room_type = models.CharField(max_length=50,choices = ROOM_TYPE)
     capacity = models.IntegerField()
     price = models.IntegerField()
     size = models.IntegerField()
-    hotel = models.ForeignKey(Hotels, on_delete = models.CASCADE)
+    hotel = models.ForeignKey(Hotel, on_delete = models.CASCADE)
     status = models.CharField(choices =ROOM_STATUS,max_length = 15)
     roomnumber = models.IntegerField()
     def __str__(self):
@@ -39,9 +41,10 @@ class Rooms(models.Model):
 
 class Reservation(models.Model):
 
+    id = models.AutoField(primary_key=True)
     check_in = models.DateField(auto_now =False)
     check_out = models.DateField()
-    room = models.ForeignKey(Rooms, on_delete = models.CASCADE)
+    room = models.ForeignKey(Room, on_delete = models.CASCADE)
     guest = models.ForeignKey(User, on_delete= models.CASCADE)
     
     booking_id = models.CharField(max_length=100,default="null")
