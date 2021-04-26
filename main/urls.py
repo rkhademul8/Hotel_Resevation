@@ -14,5 +14,7 @@ urlpatterns = [
     path('staff/login', views.staff_log_sign_page,name="staffloginpage"),
     path('staff/signup', views.staff_sign_up,name="staffsignuppage"),
     path('staff/panel', views.panel,name="staffpanel"),
+    path('staff/panel/add-new-hotel', views.add_new_hotel,name="addhotel"),
+    path('staff/panel/add-new-room', views.add_new_room,name="addroom"),
 
 ]

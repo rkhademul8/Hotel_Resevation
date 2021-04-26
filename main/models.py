@@ -7,7 +7,7 @@ class Hotel(models.Model):
     #h_id,h_name,owner ,location,rooms
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30,null=True)
-    owner = models.CharField(max_length=20)
+    owner = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     location = models.CharField(max_length=50)
     state = models.CharField(max_length=50,null=True)
     country = models.CharField(max_length=50,null=True)

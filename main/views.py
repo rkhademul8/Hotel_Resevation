@@ -194,16 +194,74 @@ def logoutuser(request):
 @login_required(login_url='/staff')
 def panel(request):
     if  request.user.groups.exists():
-        rooms = Room.objects.all()
-        total_rooms = len(rooms)
-        available_rooms = len(Room.objects.all().filter(status='1'))
-        unavailable_rooms = len(Room.objects.all().filter(status='2'))
-        reserved = len(Reservation.objects.all())
+        user = request.user
+        hotell = Hotel.objects.filter(owner=user)
+        totall_rooms = []
+        
+        for hotels in hotell:
+            room = Room.objects.filter(hotel=hotels)
+            totall_rooms += room            
+        total_rooms = len(totall_rooms)
+        # available_rooms = len(Room.objects.all().filter(status='1'))
+        # unavailable_rooms = len(Room.objects.all().filter(status='2'))
+        # reserved = len(Reservation.objects.all())
 
-        hotel = Hotel.objects.values_list('location','id').distinct().order_by()
+        hotel = Hotel.objects.values_list('name','id').distinct().order_by()
 
-        response = render(request,'staff/panel.html',{'location':hotel,'reserved':reserved,'rooms':rooms,'total_rooms':total_rooms,'available':available_rooms,'unavailable':unavailable_rooms})
+        response = render(request,'staff/panel.html',{'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms,})
         return HttpResponse(response)
     else:
         messages.success(request,"Access Denied")
         return redirect('homepage')
+
+
+
+@login_required(login_url='/staff')
+def add_new_hotel(request):
+    if request.method == "POST":
+        name = request.POST['hotel_name']
+        user = request.user
+        location = request.POST['new_city']
+        state = request.POST['new_state']
+        country = request.POST['new_country']
+        
+        # hotels = Hotel.objects.all().filter(location = location , state = state)
+        # if hotels:
+        #     messages.warning(request,"Sorry City at this Location already exist")
+        #     return redirect("staffpanel")
+        # else:
+        new_hotel = Hotel()
+        new_hotel.name = name
+        new_hotel.owner = user
+        new_hotel.location = location
+        new_hotel.state = state
+        new_hotel.country = country
+        new_hotel.save()
+        messages.success(request,"New Hotel Has been Added Successfully")
+        return redirect("staffpanel")
+
+    else:
+        messages.warning(request,"Not Allowed")
+        return redirect('homepage')
+
+
+
+@login_required(login_url='/staff')
+def add_new_room(request):
+    if request.method == "POST":
+        total_rooms = len(Room.objects.all())
+        new_room = Room()
+        hotel = Hotel.objects.all().get(id = int(request.POST['hotel']))
+        new_room.roomnumber = total_rooms + 1
+        new_room.room_type  = request.POST['roomtype']
+        new_room.capacity   = int(request.POST['capacity'])
+        new_room.size       = int(request.POST['size'])
+        new_room.capacity   = int(request.POST['capacity'])
+        new_room.hotel      = hotel
+        new_room.status     = request.POST['status']
+        new_room.price      = request.POST['price']
+
+        new_room.save()
+        messages.success(request,"New Room Added Successfully")
+    
+    return redirect('staffpanel')
