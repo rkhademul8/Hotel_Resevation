@@ -2,7 +2,7 @@ from django.shortcuts import render ,redirect
 from django.http import HttpResponse , HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from .models import Hotel,Room,Reservation
 import datetime
@@ -90,27 +90,31 @@ def user_sign_up(request):
 
 #user login and signup page
 def user_log_sign_page(request):
+    check = request.user
+    if check.is_authenticated:
+        return redirect('homepage')
+    else:
+            
+        if request.method == 'POST':
+            email = request.POST['email']
+            password = request.POST['pswd']
 
-    if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['pswd']
-
-        user = authenticate(username=email,password=password)
-        try:
-            if user.is_staff:
-                
-                messages.error(request,"Incorrect username or Password")
-                return redirect('staffloginpage')
-        except:
-            pass
-        
-        if user is not None:
-            login(request,user)
-            messages.success(request,"successful logged in")
-            return redirect('homepage')
-        else:
-            messages.warning(request,"Incorrect username or password")
-            return redirect('userloginpage')
+            user = authenticate(username=email,password=password)
+            try:
+                if user.is_staff:
+                    
+                    messages.error(request,"Incorrect username or Password")
+                    return redirect('staffloginpage')
+            except:
+                pass
+            
+            if user is not None:
+                login(request,user)
+                messages.success(request,"successful logged in")
+                return redirect('homepage')
+            else:
+                messages.warning(request,"Incorrect username or password")
+                return redirect('userloginpage')
 
     response = render(request,'user/userlogsign.html')
     return HttpResponse(response)
@@ -118,22 +122,27 @@ def user_log_sign_page(request):
 
 #staff login and signup page
 def staff_log_sign_page(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+    check = request.user
+    if check.is_authenticated:
+        return redirect('homepage')
+    else:
 
-        user = authenticate(username=username,password=password)
-        
-        if user.is_staff == True:
-            login(request,user)
-            messages.success(request,"successful logged in")
-            return redirect('staffpanel')
-        
-        else:
-            messages.success(request,"Incorrect username or password")
-            return redirect('staffloginpage')
-    response = render(request,'staff/stafflogsign.html')
-    return HttpResponse(response)
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+
+            user = authenticate(username=username,password=password)
+            
+            if user.groups.filter(name='Hotel Owner').exists():
+                login(request,user)
+                messages.success(request,"successful logged in")
+                return redirect('staffpanel')
+            
+            else:
+                messages.success(request,"Incorrect username or password")
+                return redirect('staffloginpage')
+        response = render(request,'staff/stafflogsign.html')
+        return HttpResponse(response)
 
 
 
@@ -157,8 +166,10 @@ def staff_sign_up(request):
         
         new_user = User.objects.create_user(username=user_name,password=password1)
         new_user.is_superuser=False
-        new_user.is_staff=True
+        new_user.is_staff=False
         new_user.save()
+        group = Group.objects.get(name='Hotel Owner')
+        new_user.groups.add(group)
         messages.success(request," Staff Registration Successfull")
         return redirect("staffloginpage")
     else:
@@ -182,17 +193,17 @@ def logoutuser(request):
 #staff panel page
 @login_required(login_url='/staff')
 def panel(request):
-    
-    if request.user.is_staff == False:
-        return HttpResponse('Access Denied')
-    
-    rooms = Room.objects.all()
-    total_rooms = len(rooms)
-    available_rooms = len(Room.objects.all().filter(status='1'))
-    unavailable_rooms = len(Room.objects.all().filter(status='2'))
-    reserved = len(Reservation.objects.all())
+    if  request.user.groups.exists():
+        rooms = Room.objects.all()
+        total_rooms = len(rooms)
+        available_rooms = len(Room.objects.all().filter(status='1'))
+        unavailable_rooms = len(Room.objects.all().filter(status='2'))
+        reserved = len(Reservation.objects.all())
 
-    hotel = Hotel.objects.values_list('location','id').distinct().order_by()
+        hotel = Hotel.objects.values_list('location','id').distinct().order_by()
 
-    response = render(request,'staff/panel.html',{'location':hotel,'reserved':reserved,'rooms':rooms,'total_rooms':total_rooms,'available':available_rooms,'unavailable':unavailable_rooms})
-    return HttpResponse(response)
+        response = render(request,'staff/panel.html',{'location':hotel,'reserved':reserved,'rooms':rooms,'total_rooms':total_rooms,'available':available_rooms,'unavailable':unavailable_rooms})
+        return HttpResponse(response)
+    else:
+        messages.success(request,"Access Denied")
+        return redirect('homepage')
