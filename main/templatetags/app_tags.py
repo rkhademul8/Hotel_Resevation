@@ -1,8 +1,14 @@
 from django import template
-
 from datetime import date, timedelta
-
+from django.contrib.auth.models import Group
 register = template.Library()
+
+
+@register.filter(name='has_group')
+def has_group(user, group_name):
+    group = Group.objects.get(name=group_name)
+    return True if group in user.groups.all() else False
+
 
 @register.simple_tag(name="todays_date")
 def get_current_date():

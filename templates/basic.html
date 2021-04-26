@@ -1,4 +1,5 @@
 {% load static %}
+{% load app_tags %}
 <!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +42,7 @@
                     <li class="nav-item active">
                         <a class="nav-link text-bold " href="/"> Home</a>
                     </li>
-                    {% if user.is_staff %}
+                    {% if request.user|has_group:"Hotel Owner" %}
                     <li class="nav-item active">
                         <a class="nav-link text-bold" href="/staff/panel">Dashboard </a>
                     </li>
