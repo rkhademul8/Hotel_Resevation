@@ -204,11 +204,11 @@ def panel(request):
         total_rooms = len(totall_rooms)
         # available_rooms = len(Room.objects.all().filter(status='1'))
         # unavailable_rooms = len(Room.objects.all().filter(status='2'))
-        # reserved = len(Reservation.objects.all())
+        # reserved = len(Reservation.objects.filter(room_hotel_owner=user))
 
-        hotel = Hotel.objects.values_list('name','id').distinct().order_by()
+        hotel = Hotel.objects.filter(owner=user)
 
-        response = render(request,'staff/panel.html',{'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms,})
+        response = render(request,'staff/panel.html',{'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms})
         return HttpResponse(response)
     else:
         messages.success(request,"Access Denied")
@@ -265,3 +265,111 @@ def add_new_room(request):
         messages.success(request,"New Room Added Successfully")
     
     return redirect('staffpanel')
+
+
+
+#for editing room information
+@login_required(login_url='/staff')
+def edit_room(request):
+    if request.method == 'POST':
+        old_room = Room.objects.all().get(id= int(request.POST['roomid']))
+        hotel = Hotel.objects.all().get(id=int(request.POST['hotel']))
+        old_room.room_type  = request.POST['roomtype']
+        old_room.capacity   =int(request.POST['capacity'])
+        old_room.price      = int(request.POST['price'])
+        old_room.size       = int(request.POST['size'])
+        old_room.hotel      = hotel
+        old_room.status     = request.POST['status']
+        old_room.room_number=int(request.POST['roomnumber'])
+
+        old_room.save()
+        messages.success(request,"Room Details Updated Successfully")
+        return redirect('staffpanel')
+    else:
+    
+        room_id = request.GET['roomid']
+        room = Room.objects.all().get(id=room_id)
+        response = render(request,'staff/editroom.html',{'room':room})
+        return HttpResponse(response)
+
+
+
+
+# view room information
+@login_required(login_url='/staff')   
+def view_room(request):
+    room_id = request.GET['roomid']
+    room = Room.objects.all().get(id=room_id)
+
+    reservation = Reservation.objects.all().filter(room=room)
+    return HttpResponse(render(request,'staff/viewroom.html',{'room':room,'reservations':reservation}))
+
+
+# booked dashboard
+@login_required(login_url='/user')
+def user_bookings(request):
+    if request.user.is_authenticated == False:
+        messages.error(request,"Please login to Book rooms")
+        return redirect('userloginpage')
+    user = User.objects.all().get(id=request.user.id)
+    bookings = Reservation.objects.all().filter(guest=user)
+    total = 0
+    for book in bookings:
+        checkin = book.check_in
+        checkout = book.check_out
+        price = book.room.price
+        total += price * (checkout - checkin).days
+
+    if not bookings:
+        messages.warning(request,"No Bookings Found")
+    return HttpResponse(render(request,'user/mybookings.html',{'bookings':bookings, 'total':total}))
+
+
+
+#For booking the room
+@login_required(login_url='/user')
+def book_room(request):
+    if request.method =="POST":
+        room_id = request.POST['room_id']
+        room = Room.objects.all().get(id=room_id)
+        #for finding the reserved rooms on this time period for excluding from the query set
+        for each_reservation in Reservation.objects.all().filter(room = room):
+            if str(each_reservation.check_in) < str(request.POST['check_in']) and str(each_reservation.check_out) < str(request.POST['check_out']):
+                pass
+            elif str(each_reservation.check_in) > str(request.POST['check_in']) and str(each_reservation.check_out) > str(request.POST['check_out']):
+                pass
+            else:
+                messages.warning(request,"Sorry This Room is unavailable for Booking")
+                return redirect("homepage")
+            
+        current_user = request.user
+        total_person = int( request.POST['person'])
+        booking_id = str(room_id) + str(datetime.datetime.now())
+
+        reservation = Reservation()
+        room_object = Room.objects.all().get(id=room_id)
+        room_object.status = '2'
+        
+        user_object = User.objects.all().get(username=current_user)
+
+        reservation.guest = user_object
+        reservation.room = room_object
+        person = total_person
+        reservation.check_in = request.POST['check_in']
+        reservation.check_out = request.POST['check_out']
+
+        reservation.save()
+
+        messages.success(request,"Congratulations! Booking Successfull")
+
+        return redirect("userbookings")
+    else:
+        return HttpResponse('Access Denied')
+
+
+#booking room page
+@login_required(login_url='/user')
+def book_room_page(request):
+    room = Room.objects.all().get(id=int(request.GET['roomid']))
+    return HttpResponse(render(request,'user/bookroom.html',{'room':room}))
+

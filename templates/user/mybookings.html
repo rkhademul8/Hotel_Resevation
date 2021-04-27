@@ -19,10 +19,10 @@
         <td>{{each_booking.room.capacity}}</td>
         <td>{{each_booking.check_in}}</td>
         <td>{{each_booking.check_out}}</td>
-        <td>{{each_booking.room.price}}</td>
+        <td>{{each_booking.total_price}}</td>
     </tr>
     {% endfor %}
-
+    <h1>totall = {{ total }}</h1>
 
 </table>
 {% endblock body %}

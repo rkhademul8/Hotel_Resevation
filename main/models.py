@@ -50,3 +50,11 @@ class Reservation(models.Model):
     booking_id = models.CharField(max_length=100,default="null")
     def __str__(self):
         return self.guest.username
+
+    @property
+    def total_price(self):
+        days = (self.check_out - self.check_in).days
+        print(days)
+        result = self.room.price * days
+        return result
+

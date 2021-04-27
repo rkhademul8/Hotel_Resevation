@@ -413,8 +413,8 @@
                   <label for="pwd">Hotel:</label>
 
                   <select class="form-control" name="hotel" id="hotel">
-                    {% for each_name,eachid in name%}
-                    <option value="{{eachid}}">{{each_name}}</option>
+                    {% for hotels in name%}
+                    <option value="{{hotels.id}}">{{hotels.name}}</option>
                     {% endfor %}
                   </select>
                 </div>

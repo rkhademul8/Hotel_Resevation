@@ -9,6 +9,9 @@ urlpatterns = [
     path('user', views.user_log_sign_page,name="userloginpage"),
     path('user/signup', views.user_sign_up,name="usersignup"),
     path('user/login', views.user_log_sign_page,name="userloginpage"),
+    path('user/book-room', views.book_room_page,name="bookroom"),
+    path('user/book-room/book', views.book_room,name="bookroom"),
+    path('user/bookings', views.user_bookings,name="userbookings"),
     path('logout', views.logoutuser,name="logout"),
     path('staff', views.staff_log_sign_page,name="staffloginpage"),
     path('staff/login', views.staff_log_sign_page,name="staffloginpage"),
@@ -16,5 +19,8 @@ urlpatterns = [
     path('staff/panel', views.panel,name="staffpanel"),
     path('staff/panel/add-new-hotel', views.add_new_hotel,name="addhotel"),
     path('staff/panel/add-new-room', views.add_new_room,name="addroom"),
+    path('staff/panel/edit-room', views.edit_room,name="editroom"),
+    path('staff/panel/edit-room/edit', views.edit_room,name="editroom"),
+    path('staff/panel/view-room', views.view_room,name="viewroom"),
 
 ]
