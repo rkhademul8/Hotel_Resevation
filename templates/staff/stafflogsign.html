@@ -70,6 +70,26 @@
 
                                         <form action="/staff/signup" method="POST">
                                             {%csrf_token%}
+
+
+
+                                            <div class="form-group">  
+                                                <label for="username">First Name:</label>
+                                                <input type="text" class="form-control " id="firstname" placeholder="First Name" name="firstname">
+                                            </div>
+                                            <div class="form-group">  
+                                                <label for="username">Last Name:</label>
+                                                <input type="text" class="form-control " id="lastname" placeholder="Last name" name="lastname">
+                                            </div>
+    
+                                            <div class="form-group">  
+                                                <label for="username">Email:</label>
+                                                <input type="email" class="form-control " id="emain" placeholder="example@gmail.com" name="email">
+                                            </div>
+
+
+
+
                                             <div class="form-group">
                                                 <label for="username">Username:</label>
                                                 <input type="text" class="form-control " id="username" placeholder="Username" name="username">

@@ -60,6 +60,10 @@ def contactpage(request):
 #user sign up
 def user_sign_up(request):
     if request.method =="POST":
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
+
         user_name = request.POST['username']
         
         password1 = request.POST['password1']
@@ -77,9 +81,11 @@ def user_sign_up(request):
             pass
             
 
-        new_user = User.objects.create_user(username=user_name,password=password1)
+        new_user = User.objects.create_user(username=user_name,password=password1,email=email)
         new_user.is_superuser=False
         new_user.is_staff=False
+        new_user.first_name=firstname
+        new_user.last_name=lastname
         new_user.save()
         messages.success(request,"Registration Successfull")
         return redirect("userloginpage")
@@ -149,8 +155,10 @@ def staff_log_sign_page(request):
 #staff sign up
 def staff_sign_up(request):
     if request.method =="POST":
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
         user_name = request.POST['username']
-        
         password1 = request.POST['password1']
         password2 = request.POST['password2']
 
@@ -164,9 +172,11 @@ def staff_sign_up(request):
         except:
             pass
         
-        new_user = User.objects.create_user(username=user_name,password=password1)
+        new_user = User.objects.create_user(username=user_name,password=password1,email=email)
         new_user.is_superuser=False
         new_user.is_staff=False
+        new_user.first_name=firstname
+        new_user.last_name=lastname
         new_user.save()
         group = Group.objects.get(name='Hotel Owner')
         new_user.groups.add(group)
