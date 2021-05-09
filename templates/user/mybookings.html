@@ -10,6 +10,7 @@
         <th>Check in</th>
         <th>Check out</th>
         <th>Price</th>
+        
     </thead>
     {% for each_booking in bookings %}
     <tr>
@@ -20,6 +21,8 @@
         <td>{{each_booking.check_in}}</td>
         <td>{{each_booking.check_out}}</td>
         <td>{{each_booking.total_price}}</td>
+        
+        
     </tr>
     {% endfor %}
     <h1>totall = {{ total }}</h1>
