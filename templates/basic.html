@@ -39,7 +39,7 @@
                     <li class="nav-item active">
                         <a class="nav-link text-bold " href="/"> Home</a>
                     </li>
-                    {% if request.user|has_group:"Hotel Owner" %}
+                    {% if request.user|has_group:"hotel_owner" %}
                     <li class="nav-item active">
                         <a class="nav-link text-bold" href="/staff/panel">Dashboard </a>
                     </li>

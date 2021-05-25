@@ -2,7 +2,8 @@ from django.shortcuts import render ,redirect
 from django.http import HttpResponse , HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from .models import CustomUser 
 from django.contrib.auth.decorators import login_required
 from .models import Hotel,Room,Reservation
 import datetime
@@ -139,7 +140,7 @@ def staff_log_sign_page(request):
 
             user = authenticate(username=username,password=password)
             
-            if user.groups.filter(name='Hotel Owner').exists():
+            if user.groups.filter(name='hotel_owner').exists():
                 login(request,user)
                 messages.success(request,"successful logged in")
                 return redirect('staffpanel')
@@ -161,24 +162,39 @@ def staff_sign_up(request):
         user_name = request.POST['username']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
+        phone = request.POST['phone']
+        dob = request.POST['dob']
+        address = request.POST['address']
+        postal_code = request.POST['postal_code']
+        city = request.POST['city']
+        country = request.POST['country']
+        image = request.POST['image']
 
         if password1 != password2:
             messages.success(request,"Password didn't Matched")
             return redirect('staffloginpage')
         try:
-            if User.objects.all().get(username=user_name):
+            if CustomUser.objects.all().get(username=user_name):
                 messages.warning(request,"Username Already Exist")
                 return redirect("staffloginpage")
         except:
             pass
         
-        new_user = User.objects.create_user(username=user_name,password=password1,email=email)
+        new_user = CustomUser.objects.create_user(username=user_name,password=password1,email=email)
         new_user.is_superuser=False
         new_user.is_staff=False
         new_user.first_name=firstname
         new_user.last_name=lastname
+        new_user.mobile_phone=phone
+        # new_user.date_of_birth=dob
+        new_user.address1=address
+        new_user.zip_code=postal_code
+        new_user.city=city
+        # new_user.country=country
+        new_user.photo=image
+
         new_user.save()
-        group = Group.objects.get(name='Hotel Owner')
+        group = Group.objects.get(name='hotel_owner')
         new_user.groups.add(group)
         messages.success(request," Staff Registration Successfull")
         return redirect("staffloginpage")
