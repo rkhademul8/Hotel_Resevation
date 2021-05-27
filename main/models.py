@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 # Create your models here.
 
 class CustomUser(AbstractUser):
-     date_of_birth = models.DateField(verbose_name=_("Date of birth"),input_formats=, blank=True, null=True)
+     date_of_birth = models.DateField(verbose_name=_("Date of birth"), blank=True, null=True)
      address1 = models.CharField(verbose_name=_("Address line 1"), max_length=1024, blank=True, null=True)
      zip_code = models.CharField(verbose_name=_("Postal Code"), max_length=12, blank=True, null=True)
      city = models.CharField(verbose_name=_("City"), max_length=1024, blank=True, null=True)
