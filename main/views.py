@@ -64,29 +64,43 @@ def user_sign_up(request):
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         email = request.POST['email']
-
-        user_name = request.POST['username']
-        
+        user_name = request.POST['username']        
         password1 = request.POST['password1']
         password2 = request.POST['password2']
+        phone = request.POST['phone']
+        dob = request.POST['dob']
+        address = request.POST['address']
+        postal_code = request.POST['postal_code']
+        city = request.POST['city']
+        # country = request.POST['country']
 
         if password1 != password2:
             messages.warning(request,"Password didn't matched")
             return redirect('userloginpage')
         
         try:
-            if User.objects.all().get(username=user_name):
+            if CustomUser.objects.all().get(username=user_name):
                 messages.warning(request,"Username Not Available")
                 return redirect('userloginpage')
         except:
             pass
             
 
-        new_user = User.objects.create_user(username=user_name,password=password1,email=email)
+        new_user = CustomUser.objects.create_user(username=user_name,password=password1,email=email)
         new_user.is_superuser=False
         new_user.is_staff=False
         new_user.first_name=firstname
         new_user.last_name=lastname
+        new_user.mobile_phone=phone
+        new_user.date_of_birth=dob
+        new_user.address1=address
+        new_user.zip_code=postal_code
+        new_user.city=city
+        # new_user.country=country
+        if "image" in request.FILES:
+            img=request.FILES["image"]
+            new_user.photo=img
+            
         new_user.save()
         messages.success(request,"Registration Successfull")
         return redirect("userloginpage")
@@ -108,7 +122,7 @@ def user_log_sign_page(request):
 
             user = authenticate(username=email,password=password)
             try:
-                if user.is_staff:
+                if user.groups.filter(name='hotel_owner').exists():
                     
                     messages.error(request,"Incorrect username or Password")
                     return redirect('staffloginpage')
@@ -167,8 +181,8 @@ def staff_sign_up(request):
         address = request.POST['address']
         postal_code = request.POST['postal_code']
         city = request.POST['city']
-        country = request.POST['country']
-        image = request.POST['image']
+        # country = request.POST['country']
+       
 
         if password1 != password2:
             messages.success(request,"Password didn't Matched")
@@ -186,12 +200,15 @@ def staff_sign_up(request):
         new_user.first_name=firstname
         new_user.last_name=lastname
         new_user.mobile_phone=phone
-        # new_user.date_of_birth=dob
+        new_user.date_of_birth=dob
         new_user.address1=address
         new_user.zip_code=postal_code
         new_user.city=city
         # new_user.country=country
-        new_user.photo=image
+        if "image" in request.FILES:
+            img=request.FILES["image"]
+            new_user.photo=img
+
 
         new_user.save()
         group = Group.objects.get(name='hotel_owner')

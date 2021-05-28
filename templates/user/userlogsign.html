@@ -69,7 +69,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-lg-12 col-xlg-12 col-sm-12">
 
-                                    <form action="/user/signup" method="post">
+                                    <form action="/user/signup" method="post" enctype="multipart/form-data">
                                         {%csrf_token%}
 
                                         <div class="form-group">  
@@ -85,6 +85,40 @@
                                             <label for="username">Email:</label>
                                             <input type="email" class="form-control " id="emain" placeholder="example@gmail.com" name="email">
                                         </div>
+
+
+
+                                        <div class="form-group">
+                                            <label for="phone">Phone Number: </label>
+                                            <input type="text" class="form-control " id="phone" placeholder="phone" name="phone">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dob">Date of Birth: </label>
+                                            <input type="date" class="form-control " id="dob" placeholder="dob" name="dob">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address">Your address: </label>
+                                            <input type="text" class="form-control " id="address" placeholder="address" name="address">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="postal_code">Postal Code: </label>
+                                            <input type="text" class="form-control " id="postal_code" placeholder="postal_code" name="postal_code">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="city">City: </label>
+                                            <input type="text" class="form-control " id="city" placeholder="city" name="city">
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <label for="phone"> your Image: </label>
+                                            <input type="file" class="form-control " id="phone" placeholder="phone" name="image">
+                                        </div>
+
+
+
+
 
 
                                         <div class="form-group">  
