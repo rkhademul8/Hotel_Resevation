@@ -104,7 +104,7 @@
         <div class="row">
             <div class="col-md-6 col-lg-6 col-xlg-6 col-sm-12 mx-auto">
 
-                <form action="/staff/panel/edit-room/edit" method="POST">
+                <form action="/staff/panel/edit-room/edit" method="POST" enctype="multipart/form-data">
                     {%csrf_token%}
                     <div class="form-group">
                         <label for="pwd">Room Number:</label>
@@ -126,10 +126,19 @@
                         <label for="pwd">Capacity:</label>
                         <input type="number" class="form-control " id="capacity" name="capacity" value="{{room.capacity}}">
                     </div>
+
                     <div class="form-group">
                         <label for="pwd">Price:</label>
                         <input type="mumber" class="form-control " id="price" name="price" value="{{room.price}}">
                     </div>
+
+                    <div class="form-group">
+                        <label for="pwd">Room Image:</label>
+                        <input type="file" class="form-control " id="image" name="image" value="{{room.image}}">
+                    </div>
+
+
+
                     <div class="form-group">
                         <label for="pwd">Size:</label>
                         <input type="number" class="form-control " id="size" name="size" value="{{room.size}}">

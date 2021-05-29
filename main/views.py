@@ -279,6 +279,10 @@ def add_new_hotel(request):
         new_hotel.location = location
         new_hotel.state = state
         new_hotel.country = country
+        if "image" in request.FILES:
+            img=request.FILES["image"]
+            new_hotel.photo=img
+
         new_hotel.save()
         messages.success(request,"New Hotel Has been Added Successfully")
         return redirect("staffpanel")
@@ -303,6 +307,9 @@ def add_new_room(request):
         new_room.hotel      = hotel
         new_room.status     = request.POST['status']
         new_room.price      = request.POST['price']
+        if "image" in request.FILES:
+            img=request.FILES["image"]
+            new_room.photo=img
 
         new_room.save()
         messages.success(request,"New Room Added Successfully")
@@ -324,7 +331,9 @@ def edit_room(request):
         old_room.hotel      = hotel
         old_room.status     = request.POST['status']
         old_room.room_number=int(request.POST['roomnumber'])
-
+        if "image" in request.FILES:
+            img=request.FILES["image"]
+            old_room.photo=img
         old_room.save()
         messages.success(request,"Room Details Updated Successfully")
         return redirect('staffpanel')
@@ -354,7 +363,7 @@ def user_bookings(request):
     if request.user.is_authenticated == False:
         messages.error(request,"Please login to Book rooms")
         return redirect('userloginpage')
-    user = User.objects.all().get(id=request.user.id)
+    user = CustomUser.objects.all().get(id=request.user.id)
     bookings = Reservation.objects.all().filter(guest=user)
     total = 0
     for book in bookings:
@@ -393,7 +402,7 @@ def book_room(request):
         room_object = Room.objects.all().get(id=room_id)
         room_object.status = '2'
         
-        user_object = User.objects.all().get(username=current_user)
+        user_object = CustomUser.objects.all().get(username=current_user)
 
         reservation.guest = user_object
         reservation.room = room_object

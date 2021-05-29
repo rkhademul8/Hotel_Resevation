@@ -34,6 +34,7 @@ class Hotel(models.Model):
     location = models.CharField(max_length=50)
     state = models.CharField(max_length=50,null=True)
     country = models.CharField(max_length=50,null=True)
+    photo=models.ImageField(upload_to='hotel/', null=True, blank=True)
     def __str__(self):
         return self.name
 
@@ -59,6 +60,7 @@ class Room(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete = models.CASCADE)
     status = models.CharField(choices =ROOM_STATUS,max_length = 15)
     roomnumber = models.IntegerField()
+    photo=models.ImageField(upload_to='room/', null=True, blank=True)
     def __str__(self):
         return self.hotel.name
 
