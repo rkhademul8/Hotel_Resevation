@@ -65,6 +65,7 @@ class Room(models.Model):
         return self.hotel.name
 
 class Reservation(models.Model):
+    
 
     id = models.AutoField(primary_key=True)
     check_in = models.DateField(auto_now =False)

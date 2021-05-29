@@ -394,7 +394,7 @@ def book_room(request):
                 messages.warning(request,"Sorry This Room is unavailable for Booking")
                 return redirect("homepage")
             
-        current_user = request.user
+        current_user = request.user.id
         total_person = int( request.POST['person'])
         booking_id = str(room_id) + str(datetime.datetime.now())
 
@@ -402,7 +402,7 @@ def book_room(request):
         room_object = Room.objects.all().get(id=room_id)
         room_object.status = '2'
         
-        user_object = CustomUser.objects.all().get(username=current_user)
+        user_object = CustomUser.objects.all().get(id=current_user)
 
         reservation.guest = user_object
         reservation.room = room_object
