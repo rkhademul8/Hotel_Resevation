@@ -20,9 +20,6 @@ import datetime
 
 #homepage
 def homepage(request):
-
-   
-
     all_location = Hotel.objects.values_list('location','id').distinct().order_by()
     if request.method =="POST":
         try:
@@ -58,10 +55,7 @@ def homepage(request):
     return HttpResponse(response)
 
    
-def homepage(request):
 
-    q = Room.objects.all()
-    return render(request, 'index.html',{"data":q})
     
 
   
