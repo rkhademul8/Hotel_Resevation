@@ -1,3 +1,4 @@
+from typing import get_type_hints
 from django.shortcuts import render ,redirect
 from django.http import HttpResponse , HttpResponseRedirect
 from django.contrib import messages
@@ -11,8 +12,17 @@ import datetime
 
 # Create your views here.
 
+
+
+
+
+
+
 #homepage
 def homepage(request):
+
+   
+
     all_location = Hotel.objects.values_list('location','id').distinct().order_by()
     if request.method =="POST":
         try:
@@ -44,11 +54,42 @@ def homepage(request):
         
         data = {'all_location':all_location}
         response = render(request,'index.html',data)
+     
     return HttpResponse(response)
+
+   
+def homepage(request):
+
+    q = Room.objects.all()
+    return render(request, 'index.html',{"data":q})
+    
+
+  
+        
+                
+
+
+
+
+
+
+
+
 
 
 def aboutpage(request):
-    return HttpResponse(render(request,'about.html'))
+
+    q = Room.objects.all()
+    return render(request, 'about.html',{"data":q})
+
+    
+    
+        
+        
+        # return HttpResponse(render(request,'about.html'))
+
+
+
 
 #contact page
 def contactpage(request):

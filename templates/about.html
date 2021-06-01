@@ -2,5 +2,20 @@
 {% block title %}about
 {% endblock title %}
 {% block body %}
+
+
 <h1 class="text-center text-success">About page </h1>
+
+
+{% for d in data %}
+
+
+<img class="shop-item-image" src="{{d.photo.url}}">
+<h1>{{d.capacity}}</h1>
+<h1>{{d.room_type}}</h1>
+
+<span class="shop-item-price">{{d.price}} </span>
+
+{% endfor %}
+
 {% endblock body %}

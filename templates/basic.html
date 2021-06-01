@@ -69,9 +69,11 @@
                     
                    
                 </ul>
+
+
                 {% if user.is_authenticated %}
                       <button class="btn btn-group bg-light" data-toggle="modal" data-target="#forlogin">
-                       Hello, {{request.user}}
+                       Hello, {{request.user.username}}
                        <a href="/logout" class="nav-link">
                     <button class="btn btn-group bg-warning" data-toggle="modal" data-target="#forlogin">
                         Logout
@@ -79,7 +81,7 @@
                     </button>
                 
                 {% else %}
-                   
+                
                     <a href="/user" class="nav-link">
                     <button class="btn btn-group bg-warning font-weight-bold" data-toggle="modal" data-target="#forlogin">
                         User Login

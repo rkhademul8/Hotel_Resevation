@@ -90,11 +90,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+
+
+
+                
+                {% for d in data %}
+                <tr>                  
                     <td class="text-center">
                         <!--Room details-->
-                        <h1>Budget</h1>
-                        <p>Price:$55/day</p>
+                        <h1>{{d.room_type}}</h1>
+                        <p>Price:tk{{d.price}}/day</p>
 
                         <p>Size :30 ft</p>
                         <p>Capacity :Max person 3</p>
@@ -104,15 +109,33 @@
                     </td>
                     <td class="text-center">
                         <!--Room Images-->
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTS2ZUkfmCJRRItXDEo0OuJrMkQjAnfwT6sLg&usqp=CAU" alt="" class="img-fluid pt-4">
+                        <img src="{{d.photo.url}}" alt="" class="img-fluid pt-4">
                     </td>
 
                 </tr>
+                {% endfor %}
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <tr>
                     <td class="text-center">
                         <!--Room details-->
                         <h1>Premium</h1>
-                        <p>Price:$55/day</p>
+                        <p>Price:tk 55/day</p>
 
                         <p>Size :30 ft</p>
                         <p>Capacity :Max person 3</p>
@@ -146,6 +169,8 @@
                     </td>
 
                 </tr>
+
+         
 
             </tbody>
         </table>
