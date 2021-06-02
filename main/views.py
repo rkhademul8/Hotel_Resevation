@@ -21,6 +21,7 @@ import datetime
 #homepage
 def homepage(request):
     all_location = Hotel.objects.values_list('location','id').distinct().order_by()
+    sroom = Room.objects.all()
     if request.method =="POST":
         try:
             print(request.POST)
@@ -37,19 +38,21 @@ def homepage(request):
                     rr.append(each_reservation.room.id)
                 
             room = Room.objects.all().filter(hotel=hotel,capacity__gte = int(request.POST['capacity'])).exclude(id__in=rr)
+            
+            print(sroom)
             if len(room) == 0:
                 messages.warning(request,"Sorry No Rooms Are Available on this time period")
-            data = {'rooms':room,'all_location':all_location,'flag':True}
+            data = {'rooms':room,'srooms':sroom,'all_location':all_location,'flag':True}
             response = render(request,'index.html',data)
         except Exception as e:
             messages.error(request,e)
-            response = render(request,'index.html',{'all_location':all_location})
+            response = render(request,'index.html',{'srooms':sroom,'all_location':all_location})
 
 
     else:
         
         
-        data = {'all_location':all_location}
+        data = {'srooms':sroom, 'all_location':all_location}
         response = render(request,'index.html',data)
      
     return HttpResponse(response)
