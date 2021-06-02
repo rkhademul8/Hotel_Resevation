@@ -66,12 +66,12 @@ class Room(models.Model):
 
 class Reservation(models.Model):
     Reservation_STATUS = ( 
-    ("1", "pending"), 
-    ("2", "approve"),
-    ("3", "cancel"),      
+    ("1", "Pending"), 
+    ("2", "Approved"),
+    ("3", "Canceled"),      
     ) 
     
-    status=models.CharField(choices=Reservation_STATUS, max_length=15, default="pending")
+    status=models.CharField(choices=Reservation_STATUS, max_length=15, default="Pending")
     id = models.AutoField(primary_key=True)
     check_in = models.DateField(auto_now =False)
     check_out = models.DateField()

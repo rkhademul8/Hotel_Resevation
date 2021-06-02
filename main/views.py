@@ -59,32 +59,12 @@ def homepage(request):
 
    
 
-    
-
-  
-        
-                
-
-
-
-
-
-
-
-
 
 
 def aboutpage(request):
 
     q = Room.objects.all()
     return render(request, 'about.html',{"data":q})
-
-    
-    
-        
-        
-        # return HttpResponse(render(request,'about.html'))
-
 
 
 
@@ -393,6 +373,23 @@ def view_room(request):
 
     reservation = Reservation.objects.all().filter(room=room)
     return HttpResponse(render(request,'staff/viewroom.html',{'room':room,'reservations':reservation}))
+
+
+# change room information
+@login_required(login_url='/staff')   
+def change_status(request):
+    if request.method == 'POST':
+        old_reservation = Reservation.objects.all().get(id= int(request.POST['reservationid']))
+        old_reservation.status = request.POST['status']
+        old_reservation.save()
+        messages.success(request,"Status Updated Successfully")
+        return redirect(request.META['HTTP_REFERER'])
+    # else:
+    
+    #     room_id = request.GET['roomid']
+    #     room = Room.objects.all().get(id=room_id)
+    #     response = render(request,'staff/editroom.html',{'room':room})
+    #     return HttpResponse(response)
 
 
 # booked dashboard

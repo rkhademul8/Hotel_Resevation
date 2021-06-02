@@ -1,4 +1,5 @@
- {% extends 'basic.html' %} {% block title %}View Room {% endblock title %} {% block body %}
+ {% extends 'basic.html' %} {% block title %}View Room {% endblock title %}
+  {% block body %}
 <h3 class="text-success"> Details</h3>
 <hr>
 <div class="container mx-0 ">
@@ -21,6 +22,7 @@
         <th>Person</th>
         <th>check in</th>
         <th>check out</th>
+        <th>Status</th>
     </thead>
     {% for each_detail in reservations %}
     <tr>
@@ -28,6 +30,44 @@
         <td>{{each_detail.room.capacity}}</td>
         <td>{{each_detail.check_in}}</td>
         <td>{{each_detail.check_out}}</td>
+        <td>{{each_detail.get_status_display}}</td>
+        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              Edit Status
+            </button>
+            <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form action="/staff/panel/change-status" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="email">Type:</label>
+                  <select class="form-control" name="status" id="roomtype">
+                    <option value="1">Pending</option>
+                    <option value="2">Approve</option>
+                    <option value="3">Cancel</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <input type="hidden" name="reservationid" value="{{each_detail.id}}">
+              </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </td>
     </tr>
     {% endfor %}
     <tr>
@@ -36,5 +76,14 @@
 
 </table>
 {% else %}
+
+
 <p>No details found</p>
-{% endif %} {% endblock body %}
+{% endif %}
+
+
+
+
+
+
+ {% endblock body %}

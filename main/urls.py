@@ -22,5 +22,6 @@ urlpatterns = [
     path('staff/panel/edit-room', views.edit_room,name="editroom"),
     path('staff/panel/edit-room/edit', views.edit_room,name="editroom"),
     path('staff/panel/view-room', views.view_room,name="viewroom"),
+    path('staff/panel/change-status', views.change_status,name="changestatus"),
 
 ]
