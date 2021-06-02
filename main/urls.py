@@ -12,6 +12,7 @@ urlpatterns = [
     path('user/book-room', views.book_room_page,name="bookroom"),
     path('user/book-room/book', views.book_room,name="bookroom"),
     path('user/bookings', views.user_bookings,name="userbookings"),
+    path('user/panel/change-status', views.user_change_status,name="userchangestatus"),
     path('logout', views.logoutuser,name="logout"),
     path('staff/', views.staff_log_sign_page,name="staffloginpage"),
     path('staff/login', views.staff_log_sign_page,name="staffloginpage"),

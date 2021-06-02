@@ -23,7 +23,13 @@
         <td>{{each_booking.check_out}}</td>
         <td>{{each_booking.total_price}}</td>
         <td>{{each_booking.get_status_display}}</td>
-        
+        {% if each_booking.get_status_display == 'Pending' %}
+        <td><form action="/user/panel/change-status" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">cancel</button>
+                <input type="hidden" name="reservationid" value="{{each_booking.id}}">
+              </form></td>
+        {% endif %}
         
     </tr>
     {% endfor %}

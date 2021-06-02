@@ -384,12 +384,18 @@ def change_status(request):
         old_reservation.save()
         messages.success(request,"Status Updated Successfully")
         return redirect(request.META['HTTP_REFERER'])
-    # else:
-    
-    #     room_id = request.GET['roomid']
-    #     room = Room.objects.all().get(id=room_id)
-    #     response = render(request,'staff/editroom.html',{'room':room})
-    #     return HttpResponse(response)
+
+
+
+# User change room information
+@login_required(login_url='/user')   
+def user_change_status(request):
+    if request.method == 'POST':
+        id = request.POST['reservationid']
+        Reservation.objects.filter(id=id).delete()
+        messages.success(request,"Reservation Canceled Successfully")
+        return redirect(request.META['HTTP_REFERER'])
+
 
 
 # booked dashboard
