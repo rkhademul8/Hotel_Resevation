@@ -1,0 +1,91 @@
+
+{% extends 'basic.html' %}
+
+{% load static %}
+
+{% block body %}
+
+
+
+
+    <head>
+        <title>Room Details</title>
+        <link rel="stylesheet" href="/static/boot/css/bootstrap.min.css" type="text/css">
+        
+
+    </head>
+
+   <body>
+    <h4 style="text-align: center; color: #28a745!important;  padding: 41px 0px;">Best hotels & accommodations in Bangladesh</h4>
+    
+
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            
+            
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+
+                    <img style=" height: 300px;  width: 845px;" class="d-block w-100" src="{{data.photo.url}}" alt="First slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img style=" height: 300px;  width: 845px;" class="d-block w-100" src="media/photos/3rd.jpg" alt="Second slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img style=" height: 300px;  width: 845px;" class="d-block w-100" src="media/photos/3rd.jpg" alt="Third slide">
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+
+
+
+          </div>
+          
+          <div class="col">
+            
+
+            <h4>Room Type: {{data.get_room_type_display }}</h4>
+            <h5>Price:tk {{data.price}}/day</h5>
+            <h5>Size:{{data.size}}</h5>
+            <h5>Capacity:{{data.capacity }}</h5>
+            <h5>Service:{{data.Services}}</h5>
+            <h5>Location:{{data.hotel.location}}</h5>
+
+            
+          </div>
+          
+        </div>
+        
+      </div>
+
+
+
+    
+
+
+      <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'js/popper.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+        <script src="{% static 'js/mail-script.js' %}"></script>
+        <script src="{% static 'vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js' %}"></script>
+        <script src="{% static 'vendors/nice-select/js/jquery.nice-select.js' %}"></script>
+        <script src="{% static 'js/mail-script.js' %}"></script>
+        <script src="{% static 'js/stellar.js' %}"></script>
+        <script src="{% static 'vendors/lightbox/simpleLightbox.min.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+
+
+        {% endblock body %}
+  

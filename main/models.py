@@ -46,9 +46,9 @@ class Room(models.Model):
     ) 
 
     ROOM_TYPE = ( 
-    ("1", "premium"), 
-    ("2", "deluxe"),
-    ("3","basic"),    
+    ("1", "Premium"), 
+    ("2", "Deluxe"),
+    ("3","Basic"),    
     ) 
 
     #type,no_of_rooms,capacity,prices,Hotel
@@ -61,6 +61,7 @@ class Room(models.Model):
     status = models.CharField(choices =ROOM_STATUS,max_length = 15)
     roomnumber = models.IntegerField()
     photo=models.ImageField(upload_to='room/', null=True, blank=True)
+    Services=models.CharField(max_length=30,null=True)
     def __str__(self):
         return self.hotel.name
 

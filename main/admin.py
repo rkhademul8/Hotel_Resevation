@@ -39,7 +39,7 @@ class HotelAdmin(admin.ModelAdmin):
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display=('ROOM_STATUS','room_type','capacity','price','size','hotel','status','roomnumber')
+    list_display=('ROOM_STATUS','room_type','capacity','price','size','hotel','status','roomnumber','Services')
 
 
 @admin.register(Reservation)

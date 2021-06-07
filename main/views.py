@@ -9,9 +9,99 @@ from django.contrib.auth.decorators import login_required
 from .models import Hotel,Room,Reservation
 import datetime
 
+import io
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.template import Context
+
+from django.conf import settings
+from .pdf import pdf_creator
+
+
+
 
 # Create your views here.
 
+
+
+def render_to_pdf(template_src, context_dict):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = io.BytesIO()
+    pdf = pisa.pisaDocument(io.BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return
+
+
+def booking_pdf(request, pk):
+    user = CustomUser.objects.all().get(id=request.user.id)
+    bookings = Reservation.objects.all().filter(guest=user).get(pk=pk)
+    dict = {
+        'user': bookings.guest.username,
+        'room': bookings.room.roomnumber,
+        'location': bookings.room.hotel.location,
+        'person': bookings.room.capacity,
+        'check_in': bookings.check_in,
+        'check_out': bookings.check_out,
+        'price': bookings.total_price,
+        'status': bookings.get_status_display,
+    }
+    return render_to_pdf('booking_pdf.html', dict)
+
+
+
+# def staff_pdf(request):
+   
+#     room = Room.objects.all()
+#     for room in room:
+
+#         dict={
+#             'price':room.price
+#         }
+
+#     return render_to_pdf('staff_pdf.html',dict)
+
+def staff_report(request):
+    if  request.user.groups.exists():
+        user = request.user
+        hotell = Hotel.objects.filter(owner=user)
+        totall_rooms = []
+        
+        for hotels in hotell:
+            room = Room.objects.filter(hotel=hotels)
+            totall_rooms += room            
+        total_rooms = len(totall_rooms)
+        # available_rooms = len(Room.objects.all().filter(status='1'))
+        # unavailable_rooms = len(Room.objects.all().filter(status='2'))
+        # reserved = len(Reservation.objects.filter(room_hotel_owner=user))
+
+        hotel = Hotel.objects.filter(owner=user)
+
+        response = render(request,  'staff_report.html' ,{'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms})
+        return HttpResponse(response,)
+
+    # return render(request, 'staff_report.html')
+
+
+
+
+
+def create_pdf(request):
+    host = 'http://' + settings.ALLOWED_HOSTS[0] + ':8000'
+    partial_url = request.POST.get('url', '')
+    output = partial_url.split('/')[-1]
+    url = host + partial_url
+    pdf_creator(url, output)
+    # return HttpResponse(url)
+    # return redirect(url)
+
+    file_path = os.path.join(settings.BASE_DIR, output + '.pdf')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
 
 
 
@@ -59,10 +149,14 @@ def homepage(request):
 
    
 
+#contact page
+def room_details(request, pk):
+    data=Room.objects.get(pk=pk)
+    return render(request, 'room_details.html',{'data':data})
+
 
 
 def aboutpage(request):
-
     q = Room.objects.all()
     return render(request, 'about.html',{"data":q})
 
@@ -325,6 +419,8 @@ def add_new_room(request):
         new_room.hotel      = hotel
         new_room.status     = request.POST['status']
         new_room.price      = request.POST['price']
+        new_room.Services      = request.POST['services']
+        
         if "image" in request.FILES:
             img=request.FILES["image"]
             new_room.photo=img
@@ -343,7 +439,7 @@ def edit_room(request):
         old_room = Room.objects.all().get(id= int(request.POST['roomid']))
         hotel = Hotel.objects.all().get(id=int(request.POST['hotel']))
         old_room.room_type  = request.POST['roomtype']
-        old_room.capacity   =int(request.POST['capacity'])
+        old_room.capacity   =int(request.POST['capacity'])   
         old_room.price      = int(request.POST['price'])
         old_room.size       = int(request.POST['size'])
         old_room.hotel      = hotel
@@ -466,3 +562,9 @@ def book_room_page(request):
     room = Room.objects.all().get(id=int(request.GET['roomid']))
     return HttpResponse(render(request,'user/bookroom.html',{'room':room}))
 
+
+
+
+def payment(request):
+    
+    return render(request, 'payment.html',)

@@ -31,9 +31,12 @@
               </form></td>
         {% endif %}
         
+        <td> <a href="/user/bookings/{{each_booking.id}}"> <button type="submit" class="btn btn-danger">Print</button>   </a>  </td>
+        
     </tr>
     {% endfor %}
-    <h1>totall = {{ total }}</h1>
+
+    <!-- <h1>Total = {{ total }}</h1> -->
 
 </table>
 {% endblock body %}

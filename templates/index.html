@@ -1,3 +1,4 @@
+
 {% extends 'basic.html' %}
  {% block title %}Hotel Reservasion System {% endblock title %} 
 {% block body %}
@@ -67,20 +68,69 @@
             style="position: relative; top: 7px"
           />
         </div>
+        <!--
         {% if rooms %}
         <p class="text-center text-success">Rooms Available</p>
         {% endif %}
+        -->
+
       </div>
     </form>
   </div>
 </section>
-<!--Booking Section ends here-->
-<!--Fetched reults appear here-->
+
+
+
+
+
+
+
+<div class="container">
+
+  {% if rooms %}
+  <h3 class="text-center text-success">Rooms Available</h3>
+  <hr>
+  {% endif %}
+
+  {% if rooms %}
+  
+  <div class="row">
+    {% for r in rooms %}
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <div >
+        <img style=" height: 250px;  width: 250px;" src="{{r.photo.url}}" alt="img"  ; class="img-fluid pt-4" />
+
+      </div>
+      
+      <p> Room Type: {{ r.get_room_type_display }}</p>
+      <p>Price: {{ r.price }} tk /day</p>
+      <p>Capacity: {{ r.capacity }} person</p>
+      <p>Service: {{r.Services}} </p>
+      <p>Location: {{ r.hotel.location }}</p>
+      <a href="/user/book-room?roomid={{r.id}}"
+      ><button class="btn btn-warning">Book Now</button></a
+    >
+
+    </div>
+    {% endfor %}
+  </div>
+  
+{% endif %}
+</div>
+
+
+
+
+
+
+<!--
+
 <div class="container-fluid px-0 mx-aut">
   {% if rooms %}
   <table class="table">
     <thead class="o">
       <th>Type</th>
+      <th>Photo</th>
       <th>Location</th>
       <th>Person</th>
       <th>price</th>
@@ -89,6 +139,7 @@
     {% for r in rooms %}
     <tr class="">
       <td>{{ r.get_room_type_display }}</td>
+      <td> <img src="{{r.photo.url}}" ></td>
       <td>{{ r.hotel.location }}</td>
       <td>{{ r.capacity }}</td>
       <td>{{ r.price }}</td>
@@ -103,11 +154,15 @@
   </table>
   {% endif %}
 </div>
-<!--Fetched results ends here-->
 
+-->
+
+
+
+
+<!--
 <h3 class="text-center text-dark">Rooms Types</h3>
 
-<!--Room tables starts here-->
 <div class="container-fluid px-0" style="border: 1px solid red">
   <table class="table table-striped">
     <thead>
@@ -119,32 +174,71 @@
     <tbody>
       <tr>
       {% for r in srooms %}
-        <td class="text-center">
-          <!--Room details-->
-          <h1>{{ r.get_room_type_display }}</h1>
-          <p>Price:{{ r.price }}</p>
+        <td class="text-center" >
+         
+          <h1><a style="text-decoration: none;" href="/{{r.id}}">{{ r.get_room_type_display }}</a></h1>
+          <p>Price:tk {{ r.price }}/day</p>
 
           <p>Size :{{r.size}}</p>
           <p>Capacity :{{ r.capacity }}</p>
 
-          <p>Services :Wifi,Tv,Bathroom</p>
+          <p>Services :{{r.Services}}</p>
           <p>Views {{r.status}}</p>
           <p>Location :{{ r.hotel.location }}</p>
+
+          
         </td>
         <td class="text-center">
-          <!--Room Images-->
+          
           <img
             src="{{r.photo.url}}"
-            alt=""
+            alt="" width="250px"
             class="img-fluid pt-4"
           />
         </td>
+        
         {% endfor %}
       </tr>
     
     </tbody>
   </table>
 </div>
+-->
+
+
+
+
+
+
+
+
+<div class="container">
+  <h4 style="text-align: center; color: #28a745!important;  margin-top: 90px;">Best hotels & accommodations in Bangladesh</h4>
+  <hr>
+  <div class="row">
+    {% for r in srooms %}
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <h1><img style=" height: 250px;  width: 250px;" 
+        src="{{r.photo.url}}"
+        alt="" width="250px"
+        class="img-fluid pt-4"
+      /></h1>
+      <h3><a style="text-decoration: none;" href="/{{r.id}}">{{ r.get_room_type_display }}</a></h3>
+      <p>Price:{{ r.price }}tk /day</p>
+      <p>Location:{{ r.hotel.location }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
 <!--Roo tables ends here-->
 
 {% endblock body %}
+
+
+
+
+
+

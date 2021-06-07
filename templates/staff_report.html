@@ -1,0 +1,36 @@
+
+<table class="table table-striped">
+    <thead>
+      <th>Room Number</th>
+      <th>Hotel</th>
+      <th>Location</th>
+      <th>State</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Price</th>
+      <th>Capacity</th>
+      <th>Size</th>
+      
+    </thead>
+    {% if rooms %} {% for each_room in rooms %}
+    <tr>
+      <td>{{each_room.roomnumber}}</td>
+      <td>{{each_room.hotel}}</td>
+      <td>{{each_room.hotel.location}}</td>
+      <td>{{each_room.hotel.state}}</td>
+      <td>{{each_room.get_room_type_display}}</td>
+      <td>{{each_room.get_status_display}}</td>
+      <td>{{each_room.price}}</td>
+      <td>{{each_room.capacity}}</td>
+      <td>{{each_room.size}}</td>
+      
+    </tr>
+    {% endfor %} {% endif %}
+  </table>
+
+
+  <form action="{% url 'create_pdf' %}" method="post">
+    {% csrf_token %}
+    <input id="url" name="url" value="{{ request.get_full_path }}" type="hidden" class="query-search">
+    <input class="btn btn-primary" type="submit" value="Create Pdf">
+    </form>

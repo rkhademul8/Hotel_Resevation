@@ -241,6 +241,10 @@
   Add New Hotel
 </button>
 
+<button class="btn-primary"> <a href="{% url 'staff_report' %}" style="color: #fff; text-decoration: none;">Report </a>  </button>
+
+
+
 <table class="table table-striped">
   <thead>
     <th>Room Number</th>
@@ -389,6 +393,21 @@
                   <label for="pwd">Capacity:</label>
                   <input type="number" class="form-control" id="capacity" name="capacity"/>
                 </div>
+
+
+               
+
+                <div class="form-group">
+                  <label for="pwd">Services:</label>
+                  <input
+                    type="mumber"
+                    class="form-control"
+                    id="price"
+                    placeholder="Wifi,Tv,Bathroom,Ac or Non Ac"
+                    name="services"
+                  />
+                </div>
+
                 <div class="form-group">
                   <label for="pwd">Price:</label>
                   <input
@@ -404,6 +423,7 @@
                   <input type="file" class="form-control " id="phone" placeholder="phone" name="image">
               </div>
 
+
                 <div class="form-group">
                   <label for="pwd">Size:</label>
                   <input
@@ -413,6 +433,11 @@
                     name="size"
                   />
                 </div>
+
+
+                
+
+
                 <div class="form-group">
                   <label for="pwd">Status:</label>
                   <select class="form-control" name="status" id="roomstatus">
