@@ -23,6 +23,7 @@
         <td>{{each_booking.check_out}}</td>
         <td>{{each_booking.total_price}}</td>
         <td>{{each_booking.get_status_display}}</td>
+        <td> <a href="/user/bookings/{{each_booking.id}}"> <button type="submit" class="btn btn-danger">Print</button>   </a>  </td>
         {% if each_booking.get_status_display == 'Pending' %}
         <td><form action="/user/panel/change-status" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -31,7 +32,7 @@
               </form></td>
         {% endif %}
         
-        <td> <a href="/user/bookings/{{each_booking.id}}"> <button type="submit" class="btn btn-danger">Print</button>   </a>  </td>
+        
         
     </tr>
     {% endfor %}
