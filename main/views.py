@@ -51,17 +51,6 @@ def booking_pdf(request, pk):
 
 
 
-# def staff_pdf(request):
-   
-#     room = Room.objects.all()
-#     for room in room:
-
-#         dict={
-#             'price':room.price
-#         }
-
-#     return render_to_pdf('staff_pdf.html',dict)
-
 def staff_report(request):
     if  request.user.groups.exists():
         user = request.user
@@ -128,11 +117,11 @@ def homepage(request):
                     rr.append(each_reservation.room.id)
                 
             room = Room.objects.all().filter(hotel=hotel,capacity__gte = int(request.POST['capacity'])).exclude(id__in=rr)
-            
-            print(sroom)
             if len(room) == 0:
                 messages.warning(request,"Sorry No Rooms Are Available on this time period")
-            data = {'rooms':room,'srooms':sroom,'all_location':all_location,'flag':True}
+            check_in = request.POST['cin']
+            check_out = request.POST['cout']
+            data = {'rooms':room,'srooms':sroom,'all_location':all_location,"cin":check_in, "cout":check_out,'flag':True}
             response = render(request,'index.html',data)
         except Exception as e:
             messages.error(request,e)
@@ -532,24 +521,21 @@ def book_room(request):
                 return redirect("homepage")
             
         current_user = request.user.id
-        total_person = int( request.POST['person'])
-        booking_id = str(room_id) + str(datetime.datetime.now())
-
         reservation = Reservation()
         room_object = Room.objects.all().get(id=room_id)
-        room_object.status = '2'
-        
+        room_object.status = '2'    
         user_object = CustomUser.objects.all().get(id=current_user)
-
         reservation.guest = user_object
         reservation.room = room_object
-        person = total_person
         reservation.check_in = request.POST['check_in']
         reservation.check_out = request.POST['check_out']
-
+        reservation.payment_number = request.POST['bkash_number']
+        reservation.trnxid = request.POST['trx']
         reservation.save()
+        obj_get = Reservation.objects.get(pk=reservation.id)
+        print(obj_get)
 
-        messages.success(request,"Congratulations! Booking Successfull")
+        messages.success(request,"Congratulations! Booking successfull. Wait for approve")
 
         return redirect("userbookings")
     else:
@@ -559,12 +545,13 @@ def book_room(request):
 #booking room page
 @login_required(login_url='/user')
 def book_room_page(request):
-    room = Room.objects.all().get(id=int(request.GET['roomid']))
-    return HttpResponse(render(request,'user/bookroom.html',{'room':room}))
+    room = Room.objects.all().get(id=int(request.POST['roomid']))
+    cin = request.POST['cin']
+    cout = request.POST['cout']
+    data = {
+        'cin':cin,
+        'cout':cout,
+        'room':room,
+    }
+    return HttpResponse(render(request,'user/bookroom.html',data))
 
-
-
-
-def payment(request):
-    
-    return render(request, 'payment.html',)

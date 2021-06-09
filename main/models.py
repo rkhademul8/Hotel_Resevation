@@ -65,6 +65,9 @@ class Room(models.Model):
     def __str__(self):
         return self.hotel.name
 
+
+
+
 class Reservation(models.Model):
     Reservation_STATUS = ( 
     ("1", "Pending"), 
@@ -78,10 +81,14 @@ class Reservation(models.Model):
     check_out = models.DateField()
     room = models.ForeignKey(Room, on_delete = models.CASCADE)
     guest = models.ForeignKey(CustomUser, on_delete= models.CASCADE)
-    
+    payment_number=models.CharField(max_length=20)
+    trnxid=models.CharField(max_length=250)
     booking_id = models.CharField(max_length=100,default="null")
+
     def __str__(self):
         return self.guest.username
+
+
 
     @property
     def total_price(self):

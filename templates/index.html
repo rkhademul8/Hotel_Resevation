@@ -68,20 +68,11 @@
             style="position: relative; top: 7px"
           />
         </div>
-        <!--
-        {% if rooms %}
-        <p class="text-center text-success">Rooms Available</p>
-        {% endif %}
-        -->
-
+  
       </div>
     </form>
   </div>
 </section>
-
-
-
-
 
 
 
@@ -107,106 +98,26 @@
       <p>Capacity: {{ r.capacity }} person</p>
       <p>Service: {{r.Services}} </p>
       <p>Location: {{ r.hotel.location }}</p>
-      <a href="/user/book-room?roomid={{r.id}}"
-      ><button class="btn btn-warning">Book Now</button></a
-    >
-
+      <p>check_in: {{ cin }}</p>
+      <p>check_out: {{ cout }}</p>
+      <form action="/user/book-room" method="POST">
+      {% csrf_token %}
+      <input type="hidden" id="custId" name="roomid" value="{{r.id}}">
+      <input type="hidden" id="custId" name="cin" value="{{ cin }}">
+      <input type="hidden" id="custId" name="cout" value="{{ cout }}">
+      <input
+            type="submit"
+            value="Book Now"
+            class="form-control mr-sm-2 btn btn-primary my-4"
+            style="position: relative; top: 7px"
+          />
+      </form>
     </div>
     {% endfor %}
   </div>
   
 {% endif %}
 </div>
-
-
-
-
-
-
-<!--
-
-<div class="container-fluid px-0 mx-aut">
-  {% if rooms %}
-  <table class="table">
-    <thead class="o">
-      <th>Type</th>
-      <th>Photo</th>
-      <th>Location</th>
-      <th>Person</th>
-      <th>price</th>
-      <th>Action</th>
-    </thead>
-    {% for r in rooms %}
-    <tr class="">
-      <td>{{ r.get_room_type_display }}</td>
-      <td> <img src="{{r.photo.url}}" ></td>
-      <td>{{ r.hotel.location }}</td>
-      <td>{{ r.capacity }}</td>
-      <td>{{ r.price }}</td>
-
-      <td>
-        <a href="/user/book-room?roomid={{r.id}}"
-          ><button class="btn btn-warning">Book Now</button></a
-        >
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-  {% endif %}
-</div>
-
--->
-
-
-
-
-<!--
-<h3 class="text-center text-dark">Rooms Types</h3>
-
-<div class="container-fluid px-0" style="border: 1px solid red">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th class="text-center">Information</th>
-        <th class="text-center">View</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-      {% for r in srooms %}
-        <td class="text-center" >
-         
-          <h1><a style="text-decoration: none;" href="/{{r.id}}">{{ r.get_room_type_display }}</a></h1>
-          <p>Price:tk {{ r.price }}/day</p>
-
-          <p>Size :{{r.size}}</p>
-          <p>Capacity :{{ r.capacity }}</p>
-
-          <p>Services :{{r.Services}}</p>
-          <p>Views {{r.status}}</p>
-          <p>Location :{{ r.hotel.location }}</p>
-
-          
-        </td>
-        <td class="text-center">
-          
-          <img
-            src="{{r.photo.url}}"
-            alt="" width="250px"
-            class="img-fluid pt-4"
-          />
-        </td>
-        
-        {% endfor %}
-      </tr>
-    
-    </tbody>
-  </table>
-</div>
--->
-
-
-
 
 
 

@@ -1,10 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser
+from .models import CustomUser, Hotel, Room, Reservation
 # from django.contrib.admin.options import ModelAdmin
-from .models import Hotel,Room,Reservation
-# from django.contrib.auth.models import User
+
 
 
 class CustomUserAdmin(UserAdmin):
@@ -45,6 +44,4 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
     list_display=('check_in','check_out','room','guest','booking_id')
-
-
 

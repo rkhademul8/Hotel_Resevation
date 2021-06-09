@@ -17,19 +17,19 @@
                 </div>
                 <div class="form-group">
                     <label for="person">username:</label>
-                    <input type="text" class="form-control " id="username" name="username" required="true" value={{request.user}}>
+                    <input type="text" class="form-control " id="username" name="username" required="true" value='{{request.user.first_name}} {{request.user.last_name}}' disabled>
                 </div>
                 <div class="form-group">
                     <label for="person">Person:</label>
-                    <input type="number" class="form-control " id="person" name="person" min="1" max={{room.capacity}} required="true" value={{room.capacity}}>
+                    <input type="number" class="form-control " id="person" name="person" min="1" max={{room.capacity}} required="true" value={{room.capacity}} disabled>
                 </div>
                 <div class="form-group">
                     <label for="password2">Check-in:</label>
-                    <input type="date" class="form-control " id="cin" min={%todays_date%} max={% max_date %} placeholder="check in " name="check_in" required="True">
+                    <input type="text" class="form-control " id="cin" value={{cin}} disabled>
                 </div>
                 <div class="form-group">
                     <label for="password2">Check-Out:</label>
-                    <input type="date" class="form-control " id="cout" min={%tommorow%} max={% max_date%} placeholder="check out " name="check_out" required="True">
+                    <input type="text" class="form-control " id="cout" value={{cout}} disabled>
                 </div>
                 <div class="form-group">
                     <label for="username">Room Type:</label>
@@ -40,8 +40,16 @@
                     <input type="number" class="form-control " id="price" placeholder="price " name="price" disabled value={{room.price}}>
                 </div>
 
+                <div class="form-group">
+                        <label for="pwd">Bkash Number:</label>
+                        <input type="mumber" class="form-control " id="number" name="bkash_number" required="True">
+                    </div>
 
-                <button type="submit" class="btn btn-primary">Book Now</button>
+                    <div class="form-group">
+                        <label for="pwd">Trnx ID:</label>
+                        <input type="mumber" class="form-control " id="trx" name="trx" required="True">
+                    </div>
+                <button type="submit" class="btn btn-primary"><a style="color: #fff; text-decoration: none;">Next </a></button>
                 <input type="hidden" name="room_id" value={{room.id}}>
 
             </form>

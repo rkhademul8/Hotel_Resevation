@@ -1,15 +1,6 @@
 
-{% extends 'basic.html' %} {% block title %}Book Room {% endblock title %} {% block body %}
-
-
-
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-
-
-
-
-
+{% extends 'basic.html' %} {% block title %}Book Room {% endblock title %}
+{% block body %}
 
 <h1 class="text-center bg-warning my-0">Payment</h1>
     <!--Staff section -->
@@ -31,6 +22,10 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     
+                    <div class="form-group">
+                        <label for="pwd">Total amount:</label>
+                        <input type="mumber" class="form-control " id="number" name="amount" disabled value={{ reserv.price }}>
+                    </div> 
                    
                     <div class="form-group">
                         <label for="pwd">Number:</label>
@@ -48,13 +43,5 @@
             </div>
         </div>
     </div>
-
-
-
-
- 
-
-
-
   
   {% endblock body %}
