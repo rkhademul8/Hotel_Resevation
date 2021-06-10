@@ -24,12 +24,14 @@
                     <input type="number" class="form-control " id="person" name="person" min="1" max={{room.capacity}} required="true" value={{room.capacity}} disabled>
                 </div>
                 <div class="form-group">
-                    <label for="password2">Check-in:</label>
-                    <input type="text" class="form-control " id="cin" value={{cin}} disabled>
+                    <label for="cin">Check-in:</label>
+                    <input type="hidden" class="form-control " id="cin" name="cin" value={{str_cin}}>
+                    <input type="text" class="form-control" disabled id="cin" value="{{cin}}">
                 </div>
                 <div class="form-group">
-                    <label for="password2">Check-Out:</label>
-                    <input type="text" class="form-control " id="cout" value={{cout}} disabled>
+                    <label for="cout">Check-Out:</label>
+                    <input type="hidden" class="form-control " id="cout" name="cout" value={{str_cout}}>
+                    <input type="text" class="form-control" disabled id="cout" value="{{cout}}">
                 </div>
                 <div class="form-group">
                     <label for="username">Room Type:</label>
@@ -37,17 +39,17 @@
                 </div>
                 <div class="form-group">
                     <label for="password2">Price:</label>
-                    <input type="number" class="form-control " id="price" placeholder="price " name="price" disabled value={{room.price}}>
+                    <input type="number" class="form-control " id="price" placeholder="price " name="price" disabled value={{totall_price}}>
                 </div>
 
                 <div class="form-group">
                         <label for="pwd">Bkash Number:</label>
-                        <input type="mumber" class="form-control " id="number" name="bkash_number" required="True">
+                        <input type="number" class="form-control " id="number" name="bkash_number" required="True">
                     </div>
 
                     <div class="form-group">
                         <label for="pwd">Trnx ID:</label>
-                        <input type="mumber" class="form-control " id="trx" name="trx" required="True">
+                        <input type="text" class="form-control " id="trx" name="trx" required="True">
                     </div>
                 <button type="submit" class="btn btn-primary"><a style="color: #fff; text-decoration: none;">Next </a></button>
                 <input type="hidden" name="room_id" value={{room.id}}>
@@ -56,4 +58,5 @@
         </div>
     </div>
 </div>
+ 
 {% endblock body %}

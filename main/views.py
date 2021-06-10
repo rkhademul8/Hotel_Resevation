@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group
 from .models import CustomUser 
 from django.contrib.auth.decorators import login_required
 from .models import Hotel,Room,Reservation
-import datetime
+from django.utils.dateparse import parse_date
 
 import io
 from xhtml2pdf import pisa
@@ -103,7 +103,6 @@ def homepage(request):
     sroom = Room.objects.all()
     if request.method =="POST":
         try:
-            print(request.POST)
             hotel = Hotel.objects.all().get(id=int(request.POST['search_location']))
             rr = []
             
@@ -121,7 +120,7 @@ def homepage(request):
                 messages.warning(request,"Sorry No Rooms Are Available on this time period")
             check_in = request.POST['cin']
             check_out = request.POST['cout']
-            data = {'rooms':room,'srooms':sroom,'all_location':all_location,"cin":check_in, "cout":check_out,'flag':True}
+            data = {'rooms':room,'srooms':sroom,'all_location':all_location,"cin":check_in, "cout":check_out, 'flag':True}
             response = render(request,'index.html',data)
         except Exception as e:
             messages.error(request,e)
@@ -327,10 +326,8 @@ def logoutuser(request):
     if request.method =='GET':
         logout(request)
         messages.success(request,"Logged out successfully")
-        print("Logged out successfully")
         return redirect('homepage')
     else:
-        print("logout unsuccessfull")
         return redirect('userloginpage')
 
 
@@ -527,13 +524,11 @@ def book_room(request):
         user_object = CustomUser.objects.all().get(id=current_user)
         reservation.guest = user_object
         reservation.room = room_object
-        reservation.check_in = request.POST['check_in']
-        reservation.check_out = request.POST['check_out']
+        reservation.check_in = request.POST['cin']
+        reservation.check_out = request.POST['cout']
         reservation.payment_number = request.POST['bkash_number']
         reservation.trnxid = request.POST['trx']
         reservation.save()
-        obj_get = Reservation.objects.get(pk=reservation.id)
-        print(obj_get)
 
         messages.success(request,"Congratulations! Booking successfull. Wait for approve")
 
@@ -546,12 +541,17 @@ def book_room(request):
 @login_required(login_url='/user')
 def book_room_page(request):
     room = Room.objects.all().get(id=int(request.POST['roomid']))
-    cin = request.POST['cin']
-    cout = request.POST['cout']
+    str_cin = request.POST['cin']
+    str_cout = request.POST['cout']
+    cin = parse_date(str_cin)
+    cout = parse_date(str_cout)
+    price = int(room.price) * (cout - cin)
     data = {
         'cin':cin,
+        'str_cin':str_cin,
         'cout':cout,
+        'str_cout':str_cout,
         'room':room,
+        'totall_price':price,
     }
     return HttpResponse(render(request,'user/bookroom.html',data))
-

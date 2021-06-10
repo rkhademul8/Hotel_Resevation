@@ -93,7 +93,6 @@ class Reservation(models.Model):
     @property
     def total_price(self):
         days = (self.check_out - self.check_in).days
-        print(days)
         result = self.room.price * days
         return result
 
