@@ -10,7 +10,7 @@
     <p><b>Status :-</b> {{room.get_status_display| capfirst}} </p>
     <p><b>City :-</b> {{room.hotel.location| capfirst}} </p>
     <p><b>State :-</b> {{room.hotel.state| capfirst}} </p>
-    <p><b>India :-</b> {{room.hotel.country| capfirst}} </p>
+    <!-- <p><b>India :-</b> {{room.hotel.country| capfirst}} </p> -->
 </div>
 
 
@@ -22,8 +22,12 @@
         <th>Person</th>
         <th>check in</th>
         <th>check out</th>
+        <th>Number</th>
+        <th>Trx Id</th>
         <th>Status</th>
         <th>Change Status</th>
+        <th>Action</th>
+        
     </thead>
     {% for each_detail in reservations %}
     <tr>
@@ -31,6 +35,8 @@
         <td>{{each_detail.room.capacity}}</td>
         <td>{{each_detail.check_in}}</td>
         <td>{{each_detail.check_out}}</td>
+        <td>{{each_detail.payment_number}}</td>
+        <td>{{each_detail.trnxid}}</td>  
         <td>{{each_detail.get_status_display}}</td>
         <td>
         <form action="/staff/panel/change-status" method="POST" enctype="multipart/form-data">
@@ -42,10 +48,14 @@
                     <option value="3">Cancel</option>
                   </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <input type="hidden" name="reservationid" value="{{each_detail.id}}">
-              </form>
-    {% endfor %}
+                
+  
+        </td>
+        <td><button type="submit" class="btn btn-primary">Submit</button>
+          <input type="hidden" name="reservationid" value="{{each_detail.id}}">
+        
+        </form>
+        {% endfor %}
         </td>
     </tr>
     <tr>
