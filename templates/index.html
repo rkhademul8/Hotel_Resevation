@@ -79,7 +79,7 @@
 <div class="container">
 
   {% if rooms %}
-  <h3 class="text-center text-success">Rooms Available</h3>
+  <h3 class="text-center text-success">Available Rooms </h3>
   <hr>
   {% endif %}
 
@@ -87,32 +87,42 @@
   
   <div class="row">
     {% for r in rooms %}
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <div >
-        <img style=" height: 250px;  width: 250px;" src="{{r.photo.url}}" alt="img"  ; class="img-fluid pt-4" />
+    <div class="col-6" style="margin-bottom: 30px;
+    border: 3px dashed #28a745!important;">
+      
+      
+      <div class="parent">
 
-      </div>
-      
-      <p> Room Type: {{ r.get_room_type_display }}</p>
-      <p>Price: {{ r.price }} tk /day</p>
-      <p>Capacity: {{ r.capacity }} person</p>
-      <p>Service: {{r.Services}} </p>
-      <p>Location: {{ r.hotel.location }}</p>
-      
-      <p>check_in: {{ cin }}</p>
-      <p>check_out: {{ cout }}</p>
+        <div class="child_left"  style="float: left; overflow: hidden;">
+          <img style=" height: 320px;width: 300px;margin: 15px 0px;object-fit: cover; border-radius: 5%; object-fit: cover;" src="{{r.photo.url}}" alt="img"  ;  />
+  
+        </div>
+
+        <div class="child_right" style=" overflow: hidden; padding-top: 19px; padding-left: 25px;">
+
+      <p><b>Location:</b> {{ r.hotel.location }}</p>
+      <p><b> Room Type:</b> {{ r.get_room_type_display }}</p>
+      <p><b>Price:</b> {{ r.price }} tk /day</p>
+      <p><b>Capacity:</b> {{ r.capacity }} person</p>
+      <p><b>Service:</b> {{r.Services}} </p>  
+      <p><b>Check In:</b> {{ cin }}</p>
+      <p><b>Check Out:</b> {{ cout }}</p>
       <form action="/user/book-room" method="POST">
       {% csrf_token %}
       <input type="hidden" id="custId" name="roomid" value="{{r.id}}">
       <input type="hidden" id="custId" name="cin" value="{{ cin }}">
       <input type="hidden" id="custId" name="cout" value="{{ cout }}">
-      <input
-            type="submit"
-            value="Book Now"
-            class="form-control mr-sm-2 btn btn-primary my-4"
-            style="position: relative; top: 7px"
-          />
+
+    <input type="submit"value="Book Now" class="  btn btn-primary " />
       </form>
+
+
+        </div>
+
+
+      </div>
+
+
     </div>
     {% endfor %}
   </div>
@@ -125,7 +135,7 @@
 
 
 <div class="container">
-  <h4 style="text-align: center; color: #28a745!important;  margin-top: 90px;">Best hotels & accommodations in Bangladesh</h4>
+  <h4 style="text-align: center; color: #28a745!important;  margin-top: 90px;">Best Hotels & Accommodations in Bangladesh</h4>
   <hr>
   <div class="row">
     {% for r in srooms %}
@@ -138,6 +148,7 @@
       <h3><a style="text-decoration: none;" href="/{{r.id}}">{{ r.get_room_type_display }}</a></h3>
       <p>Price:{{ r.price }}tk /day</p>
       <p>Location:{{ r.hotel.location }}</p>
+     
     </div>
     {% endfor %}
   </div>

@@ -16,7 +16,7 @@
     </head>
 
    <body>
-    <h4 style="text-align: center; color: #28a745!important;  padding: 41px 0px;">Best hotels & accommodations in Bangladesh</h4>
+    <h4 style="text-align: center; color: #28a745!important;  padding: 41px 0px;">Best Hotels & Accommodations in Bangladesh</h4>
     
 
     <div class="container">
@@ -51,15 +51,16 @@
 
           </div>
           
-          <div class="col">
+          <div class="col" style="    background: rgb(242, 242, 242);">
             
 
-            <h4>Room Type: {{data.get_room_type_display }}</h4>
-            <h5>Price:tk {{data.price}}/day</h5>
-            <h5>Size:{{data.size}}</h5>
-            <h5>Capacity:{{data.capacity }}</h5>
-            <h5>Service:{{data.Services}}</h5>
-            <h5>Location:{{data.hotel.location}}</h5>
+            <p style="font-size: 25px; padding-top: 10px;">Room Type: <b>{{data.get_room_type_display }} </b></p>
+            <p>Price:tk {{data.price}}/day</p>
+            <p>Size:{{data.size}}</p>
+            <p>Capacity:{{data.capacity }}</p>
+            <p>Service:{{data.Services}}</p>
+            <p>Location:{{data.hotel.location}}</p>
+            <button type="button" class="btn btn-primary"> <a href="{% url 'homepage' %}" style="color: #fff; text-decoration: none;">  Book</a></button>
             
 
             

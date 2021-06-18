@@ -1,4 +1,5 @@
 
+
 <table class="table table-striped">
     <thead>
       <th>Room Number</th>
@@ -32,5 +33,8 @@
   <form action="{% url 'create_pdf' %}" method="post">
     {% csrf_token %}
     <input id="url" name="url" value="{{ request.get_full_path }}" type="hidden" class="query-search">
-    <input class="btn btn-primary" type="submit" value="Create Pdf">
+    <input class="btn btn-primary" type="submit" value="Print">
     </form>
+
+
+

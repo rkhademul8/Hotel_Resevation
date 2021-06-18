@@ -1,13 +1,33 @@
+<h1 style="text-align: center; border-bottom: 1px black solid; padding-bottom: 5px;">Your Booking Report</h1>
 
+<h1 style="color: green; padding-top: 10px;">Thank you for your booking Sir/Mam, {{user}}</h1>
 
-<h1 style="text-align: center;">Booking Pdf</h1>
+<h1 style="background-color: #D9E0E5;">Booking Details:</h1>
 
-<h1>====================================================================================</h1>
-<h4>User: {{user}}</h4>
-<h4>Room: {{room}}</h4>
-<h4>Location: {{location}}</h4>
-<h4>Person: {{person}}</h4>
-<h4>Check-in: {{check_in}}</h4>
-<h4>Check-out: {{check_out}}</h4>
-<h4>Total Price: {{price}}</h4>
-<h4>Status: {{status}}</h4>
+<table style="width:100%; background-color: #ECEDEE;">
+  <tr style="padding: 5px 5px; font-size: 15px;">
+    <td>Hotel Location
+    <br>Room ID
+    <br>Number of Person
+    <br>Total Price
+    <br>Total Price</td>
+
+    <td>{{location}}
+    <br>{{room}}
+    <br>{{person}}
+    <br>{{price}} BDT
+    <br>{{status}}</td>
+  </tr>
+</table>
+
+<h1 style="background-color: #D9E0E5;">Check-In and Check-Out time:</h1>
+<table style="width:100%; text-align: center; border= 1px black solid;">
+  <tr style="padding: 2px 0px; background-color: black; color: white; font-size: 15px; font-weight: bold;">
+    <th>Check-In</th>
+    <th>Check-Out</th>
+  </tr>
+  <tr style="padding: 5px 0px 2px 0px; font-size: 15px;">
+    <td>{{check_in}}</td>
+    <td>{{check_out}}</td>
+  </tr>
+</table>

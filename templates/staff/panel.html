@@ -100,7 +100,7 @@
 
 <!--Room Stats section starts here-->
 
-<section class="my-5">
+<!-- <section class="my-5">
   {%load app_tags%}
   <h2 class="text-center text-primary">Room Stats</h2>
   <div class="container-fluid px-5 py-5 border">
@@ -109,7 +109,7 @@
         <div class="bg-white rounded-lg p-5 shadow">
           <h2 class="h6 font-weight-bold text-center mb-4">Total Rooms</h2>
 
-          <!-- Progress bar 1 -->
+          
           {% if total_rooms is not none %}
           <div
             class="progress mx-auto"
@@ -129,7 +129,7 @@
             </div>
           </div>
           {% endif %}
-          <!-- END -->
+         
         </div>
       </div>
 
@@ -137,7 +137,7 @@
         <div class="bg-white rounded-lg p-5 shadow">
           <h2 class="h6 font-weight-bold text-center mb-4">Available Rooms</h2>
 
-          <!-- Progress bar 2 -->
+          
           {% if total_rooms is not none %}
           <div
             class="progress mx-auto"
@@ -157,7 +157,7 @@
             </div>
           </div>
           {% endif %}
-          <!-- END -->
+          
         </div>
       </div>
 
@@ -165,7 +165,7 @@
         <div class="bg-white rounded-lg p-5 shadow">
           <h2 class="h6 font-weight-bold text-center mb-4">Not Available</h2>
 
-          <!-- Progress bar 3 -->
+          
           {% if total_rooms is not none %}
           <div
             class="progress mx-auto"
@@ -185,7 +185,7 @@
             </div>
           </div>
           {% endif %}
-          <!-- END -->
+          
         </div>
       </div>
 
@@ -195,7 +195,7 @@
             Total Reservation
           </h2>
 
-          <!-- Progress bar 4 -->
+          
           {% if total_rooms is not none %}
           <div
             class="progress mx-auto"
@@ -215,15 +215,32 @@
             </div>
           </div>
           {% endif %}
-          <!-- END -->
+        
         </div>
       </div>
     </div>
   </div>
 </section>
+-->
 <!--Room Stats section ends here-->
 
-<h2 class="text-center pb-2">Rooms Details</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="text-center pb-2" style="color: #28a745; padding-top: 35px;">Rooms Details</h2>
+
 
 <button
   class="btn-group btn-primary"
@@ -314,7 +331,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="city">City:</label>
+                  <label for="city">Location:</label>
                   <input
                     type="text"
                     class="form-control"
@@ -391,7 +408,7 @@
                 </div>
                 <div class="form-group">
                   <label for="pwd">Capacity:</label>
-                  <input type="number" class="form-control" id="capacity" name="capacity"/>
+                  <input type="number" min="1" class="form-control" id="capacity" name="capacity"/>
                 </div>
 
 
@@ -427,7 +444,7 @@
                 <div class="form-group">
                   <label for="pwd">Size:</label>
                   <input
-                    type="number"
+                    type="number" min="1"
                     class="form-control"
                     id="size"
                     name="size"

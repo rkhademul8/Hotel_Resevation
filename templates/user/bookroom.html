@@ -9,14 +9,15 @@
     }
 </style>
 
-<div class="container">
+
+<div class="container" style="padding-top: 50px;">
     <form action="/user/book-room/book" method="POST">
         {%csrf_token%}
         {%load app_tags%}
     <div class="row">
 
       <div class="col" >
-      <h3 style="text-align: center; ">Your booking details</h3>
+      <h3 style="text-align: center; color: #28a745!important;">Your booking details</h3>
        
             <div class="form-group">
                 <label for="username">Hotel Name:</label>
@@ -55,13 +56,13 @@
       </div>
 
 
-      <div class="col"   >
+      <div class="col"  style="    background: rgb(242, 242, 242);  border-radius: 20px;" >
           
         <div class="col-50">
-            <h3 style="text-align: center; "> Step For Bkash Payment</h3>
+            <h3 style="text-align: center; color: #28a745!important; padding-top: 25px; padding-bottom: 8px;"> Steps For Bkash Payment</h3>
             <ol style="border-bottom: 1px solid black; padding-bottom: 8px;">
                 <li>Dial <b>*247#</b></li>
-                <li>Select <b>Send Money</b></li>
+                <li>Select <b>Make Payment</b></li>
                 <li>Input Mobile No: <b>01757110296</b></li>
                 <li>Input Counter No: <b>1</b></li>
                 <li>Input <b>PIN</b></li>
@@ -85,7 +86,7 @@
             <input type="text" class="form-control " id="trx" name="trx" required="True">
         </div>
 
-        <div style="text-align: center; margin-top: 5px;"><button type="submit" class="btn btn-primary" >Conform </button></div>
+        <div style="text-align: center; margin-top: 15px;"><button type="submit" class="btn btn-primary" >Confirm </button></div>
        
         <input type="hidden" name="room_id" value={{room.id}}>
       </div>
@@ -101,16 +102,6 @@
 
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-lg-6 col-xlg-6 col-sm-12 mx-auto my-4 ">
 
-           
-
-
-
-        </div>
-    </div>
-</div>
  
 {% endblock body %}

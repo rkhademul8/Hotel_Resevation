@@ -3,7 +3,8 @@
 <h3 class="text-center  text-success">My Bookings </h3>
 <table class="table">
     <thead>
-        <th>User</th>
+        <th>User Name</th>
+        
         <th>Room</th>
         <th>Location</th>
         <th>Person</th>
@@ -11,11 +12,14 @@
         <th>Check out</th>
         <th>Price</th>
         <th>Status</th>
+        <th>Report</th>
+        <th>Action</th>
         
     </thead>
     {% for each_booking in bookings %}
     <tr>
-        <td>{{each_booking.guest.username}}</td>
+        <td>{{each_booking.guest.first_name}} {{each_booking.guest.last_name}} </td>
+        
         <td>{{each_booking.room.roomnumber}}</td>
         <td>{{each_booking.room.hotel.location}}</td>
         <td>{{each_booking.room.capacity}}</td>

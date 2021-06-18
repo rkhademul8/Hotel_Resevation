@@ -1,4 +1,4 @@
-#!d:\final project\hotel_reservation_project\env\scripts\python.exe
+#!D:\aaa\Hotel_Resevation\env\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

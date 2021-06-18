@@ -1,4 +1,5 @@
 from typing import get_type_hints
+from django import template
 from django.shortcuts import render ,redirect
 from django.http import HttpResponse , HttpResponseRedirect
 from django.contrib import messages
@@ -10,13 +11,74 @@ from .models import Hotel,Room,Reservation
 from django.utils.dateparse import parse_date
 
 import io
+import os
 from xhtml2pdf import pisa
+
 from django.template.loader import get_template
 from django.template import Context
 
 from django.conf import settings
 from .pdf import pdf_creator
 
+from django.views.generic import View
+from django.template.loader import get_template
+from .utils import render_to_pdf 
+
+
+class GeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        templates=get_template('invoice.html')
+        q = Room.objects.all()
+
+        # if  request.user.groups.exists():
+        #     user = request.user
+        #     hotell = Hotel.objects.filter(owner=user)
+        #     totall_rooms = []
+        
+        #     for hotels in hotell:
+        #         room = Room.objects.filter(hotel=hotels)
+        #         totall_rooms += room  
+                          
+        #     total_rooms = len(totall_rooms)
+
+        #     hotel = Hotel.objects.filter(owner=user)
+
+        #     context={'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms}
+        
+        context= {
+             
+            "data":q
+            }
+
+        html=templates.render(context)
+        pdf=render_to_pdf('invoice.html',context)
+                
+        return HttpResponse(pdf, content_type='application/pdf',)
+
+        
+
+
+
+def staff_report(request):
+    if  request.user.groups.exists():
+        user = request.user
+        hotell = Hotel.objects.filter(owner=user)
+        totall_rooms = []
+        
+        for hotels in hotell:
+            room = Room.objects.filter(hotel=hotels)
+            totall_rooms += room            
+        total_rooms = len(totall_rooms)
+        # available_rooms = len(Room.objects.all().filter(status='1'))
+        # unavailable_rooms = len(Room.objects.all().filter(status='2'))
+        # reserved = len(Reservation.objects.filter(room_hotel_owner=user))
+
+        hotel = Hotel.objects.filter(owner=user)
+
+        # response = render(request,  'staff_report.html' ,{'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms})
+        return render(request, 'staff_report.html', {'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms})
+
+    # return render(request, 'staff_report.html')        
 
 
 
@@ -51,26 +113,6 @@ def booking_pdf(request, pk):
 
 
 
-def staff_report(request):
-    if  request.user.groups.exists():
-        user = request.user
-        hotell = Hotel.objects.filter(owner=user)
-        totall_rooms = []
-        
-        for hotels in hotell:
-            room = Room.objects.filter(hotel=hotels)
-            totall_rooms += room            
-        total_rooms = len(totall_rooms)
-        # available_rooms = len(Room.objects.all().filter(status='1'))
-        # unavailable_rooms = len(Room.objects.all().filter(status='2'))
-        # reserved = len(Reservation.objects.filter(room_hotel_owner=user))
-
-        hotel = Hotel.objects.filter(owner=user)
-
-        response = render(request,  'staff_report.html' ,{'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms})
-        return HttpResponse(response,)
-
-    # return render(request, 'staff_report.html')
 
 
 
