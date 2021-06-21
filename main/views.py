@@ -546,10 +546,13 @@ def user_bookings(request):
 #For booking the room
 @login_required(login_url='/user')
 def book_room(request):
+    
+    
     if request.method =="POST":
         room_id = request.POST['room_id']
         room = Room.objects.all().get(id=room_id)
         #for finding the reserved rooms on this time period for excluding from the query set
+        print(request.POST['check_in'])
         for each_reservation in Reservation.objects.all().filter(room = room):
             if str(each_reservation.check_in) < str(request.POST['check_in']) and str(each_reservation.check_out) < str(request.POST['check_out']):
                 pass
@@ -566,10 +569,12 @@ def book_room(request):
         user_object = CustomUser.objects.all().get(id=current_user)
         reservation.guest = user_object
         reservation.room = room_object
-        reservation.check_in = request.POST['cin']
-        reservation.check_out = request.POST['cout']
-        reservation.payment_number = request.POST['bkash_number']
-        reservation.trnxid = request.POST['trx']
+        
+        reservation.check_in = request.POST['check_in']
+        reservation.check_out = request.POST['check_out']
+
+        # reservation.payment_number = request.POST['bkash_number']
+        # reservation.trnxid = request.POST['trx']
         reservation.save()
 
         messages.success(request,"Congratulations! Booking successfull. Wait for approve")
@@ -597,3 +602,24 @@ def book_room_page(request):
         'totall_price':price,
     }
     return HttpResponse(render(request,'user/bookroom.html',data))
+
+
+def payment(request):
+    if request.method == "POST":
+        room_id = request.POST['room_id']
+        room = Room.objects.all().get(id=room_id)
+        
+        
+        bkash_number = request.POST['bkash_number']
+        trx = request.POST['trx']
+
+        pay = Reservation()
+       
+        pay.payment_number = bkash_number
+        pay.trnxid = trx
+        
+
+        pay.save()
+        messages.success(request,"New Hotel Has been Added Successfully")
+
+    return HttpResponse(render(request,'payment.html'))

@@ -30,10 +30,9 @@ urlpatterns = [
     path('room_details', views.room_details,name="room_details"),
     path('<int:pk>', views.room_details,name="room_details"),
     # path('staff_pdf', views.staff_pdf,name="staff_pdf"),
-
     path('staff_report/', views.staff_report,name="staff_report"),
-
     path('create_pdf/', views.create_pdf, name='create_pdf'),
+    path('payment', views.payment, name='payment'),
 
 
 

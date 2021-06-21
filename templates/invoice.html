@@ -58,11 +58,10 @@
              <!-- Bill to:{{customer_name}} <br/>
             Amount:{{amount}}   <br/>
             Date: {{date}}  -->
+ {% for d in data %}
 
-            {% for d in data %}
 
 
-<img class="shop-item-image" src="{{d.photo.url}}">
 <h1>{{d.capacity}}</h1>
 <h1>{{d.room_type}}</h1>
 <h1>Service:{{d.Services}}</h1>
@@ -70,6 +69,7 @@
 <span class="shop-item-price">{{d.price}} </span>
 
 {% endfor %}
+
             <hr class='hrItem' />
         </div>
     </div>

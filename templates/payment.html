@@ -2,46 +2,52 @@
 {% extends 'basic.html' %} {% block title %}Book Room {% endblock title %}
 {% block body %}
 
-<h1 class="text-center bg-warning my-0">Payment</h1>
-    <!--Staff section -->
-    <div class="container">
 
-        <div class="row">
-            <div class="col-md-6 col-lg-6 col-xlg-6 col-sm-12 mx-auto">
 
-                <ol style="border-bottom: 1px solid black; padding-bottom: 8px;">
-                    <h5 style="text-align: center;"> Bkash</h5>
-                    <li>Dial <b>*247#</b></li>
-                    <li>Select <b>Send Money</b></li>
-                    <li>Input Mobile No: <b>01757110296</b></li>
-                    <li>Input Counter No: <b>1</b></li>
-                    <li>Input <b>PIN</b></li>
-                    <li><b>Confirm</b></li>
-                </ol>
+<form action="/user/book-room/book" method="POST">
+    {%csrf_token%}
 
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    
-                    <div class="form-group">
-                        <label for="pwd">Total amount:</label>
-                        <input type="mumber" class="form-control " id="number" name="amount" disabled value={{ reserv.price }}>
-                    </div> 
-                   
-                    <div class="form-group">
-                        <label for="pwd">Number:</label>
-                        <input type="mumber" class="form-control " id="number" name="number">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pwd">Trx ID:</label>
-                        <input type="mumber" class="form-control " id="trx" name="trx">
-                    </div>
-                    
-                   
-                    <button type="submit" class="btn btn-primary">Add Room</button>
-                </form>
+    <div class="col"  style="    background: rgb(242, 242, 242);  border-radius: 20px;" >
+          
+        <div class="col-50">
+            <h3 style="text-align: center; color: #28a745!important; padding-top: 25px; padding-bottom: 8px;"> Steps For Bkash Payment</h3>
+            <ol style="border-bottom: 1px solid black; padding-bottom: 8px;">
+                <li>Dial <b>*247#</b></li>
+                <li>Select <b>Make Payment</b></li>
+                <li>Input Mobile No: <b>01757110296</b></li>
+                <li>Input Counter No: <b>1</b></li>
+                <li>Input <b>PIN</b></li>
+                <li><b>Confirm</b></li>
+            </ol>
             </div>
+
+
+            <div class="form-group">
+                <label for="password2">Total price:</label>
+                <input type="number" class="form-control " id="price" placeholder="price " name="price" disabled value={{totall_price}}>
+            </div>
+
+        <div class="form-group">
+            <label for="pwd">Your Bkash Number:</label>
+            <input type="number" class="form-control " id="number" name="bkash_number" required="True">
         </div>
+
+        <div class="form-group">
+            <label for="pwd">Trnx ID:</label>
+            <input type="text" class="form-control " id="trx" name="trx" required="True">
+        </div>
+        <div style="text-align: center; margin-top: 15px;"><button type="submit" class="btn btn-primary" >Confirm </button></div>
+       
+        <input type="hidden" name="room_id" value={{room.id}}>
+      </div>
     </div>
+
+</from>
+
+
+
+
+
+
   
   {% endblock body %}
