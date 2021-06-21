@@ -1,5 +1,6 @@
 from typing import get_type_hints
 from django import template
+from django.http.request import HttpRequest
 from django.shortcuts import render ,redirect
 from django.http import HttpResponse , HttpResponseRedirect
 from django.contrib import messages
@@ -28,32 +29,32 @@ from .utils import render_to_pdf
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):
         templates=get_template('invoice.html')
-        q = Room.objects.all()
+        # q = Room.objects.all()
 
-        # if  request.user.groups.exists():
-        #     user = request.user
-        #     hotell = Hotel.objects.filter(owner=user)
-        #     totall_rooms = []
+        if  request.user.groups.exists():
+            user = request.user
+            hotell = Hotel.objects.filter(owner=user)
+            totall_rooms = []
         
-        #     for hotels in hotell:
-        #         room = Room.objects.filter(hotel=hotels)
-        #         totall_rooms += room  
+            for hotels in hotell:
+                room = Room.objects.filter(hotel=hotels)
+                totall_rooms += room  
                           
-        #     total_rooms = len(totall_rooms)
+            total_rooms = len(totall_rooms)
 
-        #     hotel = Hotel.objects.filter(owner=user)
+            hotel = Hotel.objects.filter(owner=user)
 
-        #     context={'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms}
+            context={'name':hotel,'rooms':totall_rooms,'total_rooms':total_rooms}
         
-        context= {
+        # context= {
              
-            "data":q
-            }
+        #     "data":q
+        #     }
 
-        html=templates.render(context)
-        pdf=render_to_pdf('invoice.html',context)
-                
-        return HttpResponse(pdf, content_type='application/pdf',)
+            html=templates.render(context)
+            pdf=render_to_pdf('invoice.html',context)
+                    
+            return HttpResponse(pdf, content_type='application/pdf',)
 
         
 
@@ -546,13 +547,10 @@ def user_bookings(request):
 #For booking the room
 @login_required(login_url='/user')
 def book_room(request):
-    
-    
     if request.method =="POST":
         room_id = request.POST['room_id']
         room = Room.objects.all().get(id=room_id)
         #for finding the reserved rooms on this time period for excluding from the query set
-        print(request.POST['check_in'])
         for each_reservation in Reservation.objects.all().filter(room = room):
             if str(each_reservation.check_in) < str(request.POST['check_in']) and str(each_reservation.check_out) < str(request.POST['check_out']):
                 pass
@@ -562,23 +560,17 @@ def book_room(request):
                 messages.warning(request,"Sorry This Room is unavailable for Booking")
                 return redirect("homepage")
             
-        current_user = request.user.id
-        reservation = Reservation()
-        room_object = Room.objects.all().get(id=room_id)
-        room_object.status = '2'    
-        user_object = CustomUser.objects.all().get(id=current_user)
-        reservation.guest = user_object
-        reservation.room = room_object
-        
-        reservation.check_in = request.POST['check_in']
-        reservation.check_out = request.POST['check_out']
-
-        # reservation.payment_number = request.POST['bkash_number']
-        # reservation.trnxid = request.POST['trx']
+        user = request.user
+        check_in = request.POST['check_in']
+        check_out = request.POST['check_out']
+        reservation = Reservation(
+            guest = user,
+            room = room,
+            check_in = check_in,
+            check_out = check_out
+        )
         reservation.save()
-
         messages.success(request,"Congratulations! Booking successfull. Wait for approve")
-
         return redirect("userbookings")
     else:
         return HttpResponse('Access Denied')
@@ -605,21 +597,23 @@ def book_room_page(request):
 
 
 def payment(request):
-    if request.method == "POST":
-        room_id = request.POST['room_id']
-        room = Room.objects.all().get(id=room_id)
-        
-        
+    if request.method =="POST":
+        reservationid = request.POST['reservationid']
+        print(reservationid)
+        reservation = Reservation.objects.filter(id=reservationid)
         bkash_number = request.POST['bkash_number']
         trx = request.POST['trx']
+        reservation.update(payment_number=bkash_number, trnxid=trx)
+        messages.success(request,"Your payment has been added successfully")
+        return redirect('userbookings')
 
-        pay = Reservation()
-       
-        pay.payment_number = bkash_number
-        pay.trnxid = trx
-        
 
-        pay.save()
-        messages.success(request,"New Hotel Has been Added Successfully")
 
-    return HttpResponse(render(request,'payment.html'))
+def makepayment(request):
+    if request.method =="POST":
+        reservationid = request.POST['reservationid']
+        reservation = Reservation.objects.get(id=reservationid)
+        context = {
+            'reservation':reservation
+        }
+        return render(request,'payment.html', context)

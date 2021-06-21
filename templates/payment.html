@@ -4,7 +4,7 @@
 
 
 
-<form action="/user/book-room/book" method="POST">
+<form action="{% url 'payment' %}" method="POST">
     {%csrf_token%}
 
     <div class="col"  style="    background: rgb(242, 242, 242);  border-radius: 20px;" >
@@ -38,7 +38,7 @@
         </div>
         <div style="text-align: center; margin-top: 15px;"><button type="submit" class="btn btn-primary" >Confirm </button></div>
        
-        <input type="hidden" name="room_id" value={{room.id}}>
+        <input type="text" name="reservationid" value="{{reservation.id}}">
       </div>
     </div>
 

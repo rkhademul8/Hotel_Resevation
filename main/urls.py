@@ -33,6 +33,7 @@ urlpatterns = [
     path('staff_report/', views.staff_report,name="staff_report"),
     path('create_pdf/', views.create_pdf, name='create_pdf'),
     path('payment', views.payment, name='payment'),
+    path('payments', views.makepayment, name='makepayment'),
 
 
 
