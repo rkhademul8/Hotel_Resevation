@@ -16,7 +16,7 @@
         <th>State</th>
     </thead>
     <tr>
-      <td>00{{room.roomnumber}}</td>
+      <td>0{{room.roomnumber}}</td>
       <td>{{room.get_room_type_display}}</td>
       <td>{{room.capacity}} person</td>
       <td>{{room.size}} ft</td>
@@ -42,7 +42,7 @@
 <h3 class="text-success"  style="text-align: center;">Booking Details</h3>
 <table class="table">
     <thead>
-        <th>Username</th>
+        <th>Customer Name</th>
         <th>Person</th>
         <th>check in</th>
         <th>check out</th>
@@ -54,7 +54,7 @@
     </thead>
     {% for each_detail in reservations %}
     <tr>
-        <td>{{each_detail.guest.username}}</td>
+        <td>{{each_detail.guest.first_name}} {{each_detail.guest.last_name}}</td>
         <td>{{each_detail.room.capacity}}</td>
         <td>{{each_detail.check_in}}</td>
         <td>{{each_detail.check_out}}</td>
