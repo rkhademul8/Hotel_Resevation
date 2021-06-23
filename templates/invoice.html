@@ -1,77 +1,16 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-    <head>
-        <title>Title</title>
-        <style type="text/css">
-            body {
-                font-weight: 200;
-                font-size: 14px;
-            }
-            .header {
-                font-size: 20px;
-                font-weight: 100;
-                text-align: center;
-                color: #007cae;
-            }
-            .title {
-                font-size: 22px;
-                font-weight: 100;
-               /* text-align: right;*/
-               padding: 10px 20px 0px 20px;  
-            }
-            .title span {
-                color: #007cae;
-            }
-            .details {
-                padding: 10px 20px 0px 20px;
-                text-align: left !important;
-                /*margin-left: 40%;*/
-            }
-            .hrItem {
-                border: none;
-                height: 1px;
-                /* Set the hr color */
-                color: #333; /* old IE */
-                background-color: #fff; /* Modern Browsers */
-            }
-        </style>
-    </head>
-    <body>
-        <div class='wrapper'>
-            <div class='header'>
-                <p class='title'>Invoice # </p>
-            </div>
-        <div>
-        <div class='details'>
-            <!-- {% if rooms %} 
-                {% for each_room in rooms %}
-
-           
-
-                    {{each_room.hotel}}
-                    {{each_room.hotel.location}}
-                    {{each_room.hotel.state}}
-
-                {% endfor %} 
-            {% endif %} -->
-
-             <!-- Bill to:{{customer_name}} <br/>
-            Amount:{{amount}}   <br/>
-            Date: {{date}}  -->
- {% for d in data %}
 
 
-
-<h1>{{d.capacity}}</h1>
-<h1>{{d.room_type}}</h1>
-<h1>Service:{{d.Services}}</h1>
-
-<span class="shop-item-price">{{d.price}} </span>
-
-{% endfor %}
-
-            <hr class='hrItem' />
-        </div>
-    </div>
-    </body>
-</html>
+{% if rooms %} {% for each_room in rooms %}
+<tr>
+  <td>{{each_room.roomnumber}}</td>
+  <td>{{each_room.hotel}}</td>
+  <td>{{each_room.hotel.location}}</td>
+  <td>{{each_room.hotel.state}}</td>
+  <td>{{each_room.get_room_type_display}}</td>
+  <td>{{each_room.get_status_display}}</td>
+  <td>{{each_room.price}}</td>
+  <td>{{each_room.capacity}}</td>
+  <td>{{each_room.size}}</td>
+  
+</tr>
+{% endfor %} {% endif %}
