@@ -10,7 +10,7 @@ from .models import CustomUser
 from django.contrib.auth.decorators import login_required
 from .models import Hotel,Room,Reservation
 from django.utils.dateparse import parse_date
-
+from datetime import datetime
 import io
 import os
 from xhtml2pdf import pisa
@@ -531,16 +531,9 @@ def user_bookings(request):
         return redirect('userloginpage')
     user = CustomUser.objects.all().get(id=request.user.id)
     bookings = Reservation.objects.all().filter(guest=user)
-    total = 0
-    for book in bookings:
-        checkin = book.check_in
-        checkout = book.check_out
-        price = book.room.price
-        total += price * (checkout - checkin).days
-
     if not bookings:
         messages.warning(request,"No Bookings Found")
-    return HttpResponse(render(request,'user/mybookings.html',{'bookings':bookings, 'total':total}))
+    return HttpResponse(render(request,'user/mybookings.html',{'bookings':bookings}))
 
 
 
@@ -613,7 +606,14 @@ def makepayment(request):
     if request.method =="POST":
         reservationid = request.POST['reservationid']
         reservation = Reservation.objects.get(id=reservationid)
+        dateformate = "%Y-%m-%d"
+        checkin = datetime.strptime(str(reservation.check_in), dateformate)
+        checkout = datetime.strptime(str(reservation.check_out), dateformate)
+        delta = (checkout - checkin).days
+        pricepermonth = int(reservation.room.price)
+        total_price = delta * pricepermonth
         context = {
-            'reservation':reservation
+            'reservation':reservation,
+            'totalprice':total_price,
         }
         return render(request,'payment.html', context)
