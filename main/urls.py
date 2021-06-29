@@ -4,7 +4,7 @@ from django.urls import path
 from . import views
 from .views import GeneratePdf
 urlpatterns = [
-    url(r'^pdf/$',GeneratePdf.as_view()),
+    url(r'^pdf/$',GeneratePdf.as_view(),name="pdf"),
     path('', views.homepage,name="homepage"),
     path('about', views.aboutpage,name="aboutpage"),
     path('contact', views.contactpage,name="contactpage"),

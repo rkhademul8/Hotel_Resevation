@@ -3,47 +3,53 @@
 {% block body %}
 
 
-
-<form action="{% url 'payment' %}" method="POST">
-    {%csrf_token%}
-
-    <div class="col"  style="    background: rgb(242, 242, 242);  border-radius: 20px;" >
-          
-        <div class="col-50">
-            <h3 style="text-align: center; color: #28a745!important; padding-top: 25px; padding-bottom: 8px;"> Steps For Bkash Payment</h3>
-            <ol style="border-bottom: 1px solid black; padding-bottom: 8px;">
-                <li>Dial <b>*247#</b></li>
-                <li>Select <b>Make Payment</b></li>
-                <li>Input Mobile No: <b>01757110296</b></li>
-                <li>Input Counter No: <b>1</b></li>
-                <li>Input <b>PIN</b></li>
-                <li><b>Confirm</b></li>
-            </ol>
-            </div>
+<div class="container" style="padding-top: 50px; padding-bottom: 50px; width: 50%;">
 
 
+
+    <form action="{% url 'payment' %}" method="POST">
+        {%csrf_token%}
+    
+        <div class="col"  style="    background: rgb(242, 242, 242);  border-radius: 20px;" >
+              
+            <div class="col-50">
+                <h3 style="text-align: center; color: #28a745!important; padding-top: 25px; padding-bottom: 8px;"> Steps For Bkash Payment</h3>
+                <ol style="border-bottom: 1px solid black; padding-bottom: 8px;">
+                    <li>Dial <b>*247#</b></li>
+                    <li>Select <b>Make Payment</b></li>
+                    <li>Input Mobile No: <b>01757110296</b></li>
+                    <li>Input Counter No: <b>1</b></li>
+                    <li>Input <b>PIN</b></li>
+                    <li><b>Confirm</b></li>
+                </ol>
+                </div>
+    
+    
+                <div class="form-group">
+                    <label for="password2">Total price:</label>
+                    <input type="number" class="form-control " id="price" placeholder="price " name="price" disabled value={{totalprice}}>
+                </div>
+    
             <div class="form-group">
-                <label for="password2">Total price:</label>
-                <input type="number" class="form-control " id="price" placeholder="price " name="price" disabled value={{totalprice}}>
+                <label for="pwd">Your Bkash Number:</label>
+                <input type="number" class="form-control " id="number" name="bkash_number" required="True">
             </div>
-
-        <div class="form-group">
-            <label for="pwd">Your Bkash Number:</label>
-            <input type="number" class="form-control " id="number" name="bkash_number" required="True">
+    
+            <div class="form-group">
+                <label for="pwd">Trnx ID:</label>
+                <input type="text" class="form-control " id="trx" name="trx" required="True">
+            </div>
+            <div style="text-align: center; margin-top: 15px;"><button type="submit" class="btn btn-primary" >Confirm </button></div>
+           
+            <input type="hidden" name="reservationid" value="{{reservation.id}}">
+          </div>
         </div>
+    
+    </from>
+    
 
-        <div class="form-group">
-            <label for="pwd">Trnx ID:</label>
-            <input type="text" class="form-control " id="trx" name="trx" required="True">
-        </div>
-        <div style="text-align: center; margin-top: 15px;"><button type="submit" class="btn btn-primary" >Confirm </button></div>
-       
-        <input type="hidden" name="reservationid" value="{{reservation.id}}">
-      </div>
-    </div>
 
-</from>
-
+</div>
 
 
 

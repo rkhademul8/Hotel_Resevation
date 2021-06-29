@@ -1,20 +1,22 @@
 <h1 style="text-align: center; border-bottom: 1px black solid; padding-bottom: 5px;">Your Booking Report</h1>
 
-<h1 style="color: green; padding-top: 10px;">Thank you for your booking Sir/Mam, {{user}}</h1>
+<h1 style="color: green; padding-top: 10px;">Thank you for your booking Dear, {{first_name}} {{last_name}}</h1>
 
 <h1 style="background-color: #D9E0E5;">Booking Details:</h1>
 
 <table style="width:100%; background-color: #ECEDEE;">
   <tr style="padding: 5px 5px; font-size: 15px;">
-    <td>Hotel Location
-    <br>Room ID
+    <td>Hotel Name
+    <br>Hotel Location
+    <br>Room No:
     <br>Number of Person
     <br>Total Price
-    <br>Total Price</td>
+    <br>Bookinh-status</td>
 
-    <td>{{location}}
+    <td>{{hotel_name}}
+    <br>{{location}}
     <br>{{room}}
-    <br>{{person}}
+    <br>{{person}} 
     <br>{{price}} BDT
     <br>{{status}}</td>
   </tr>

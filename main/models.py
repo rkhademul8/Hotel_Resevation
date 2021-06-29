@@ -48,7 +48,7 @@ class Room(models.Model):
     ROOM_TYPE = ( 
     ("1", "Premium"), 
     ("2", "Deluxe"),
-    ("3","Basic"),    
+    ("3","Economi"),    
     ) 
 
     #type,no_of_rooms,capacity,prices,Hotel
@@ -81,8 +81,8 @@ class Reservation(models.Model):
     check_out = models.DateField()
     room = models.ForeignKey(Room, on_delete = models.CASCADE)
     guest = models.ForeignKey(CustomUser, on_delete= models.CASCADE)
-    payment_number=models.CharField(max_length=20)
-    trnxid=models.CharField(max_length=250)
+    payment_number=models.CharField(max_length=20, null=True, blank=True)
+    trnxid=models.CharField(max_length=250,null=True, blank=True)
     booking_id = models.CharField(max_length=100,default="null")
 
     def __str__(self):

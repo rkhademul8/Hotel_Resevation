@@ -101,7 +101,10 @@ def booking_pdf(request, pk):
     user = CustomUser.objects.all().get(id=request.user.id)
     bookings = Reservation.objects.all().filter(guest=user).get(pk=pk)
     dict = {
-        'user': bookings.guest.username,
+        "first_name":bookings.guest.first_name,
+        "last_name":bookings.guest.last_name,
+        'hotel_name':bookings.room.hotel.name,
+        # 'user': bookings.guest.username,
         'room': bookings.room.roomnumber,
         'location': bookings.room.hotel.location,
         'person': bookings.room.capacity,

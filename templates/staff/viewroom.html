@@ -19,7 +19,7 @@
       <td>0{{room.roomnumber}}</td>
       <td>{{room.get_room_type_display}}</td>
       <td>{{room.capacity}} person</td>
-      <td>{{room.size}} ft</td>
+      <td>{{room.size}} sq mt</td>
       <td>{{room.get_status_display| capfirst}}</td>
       <td>{{room.hotel.location| capfirst}}</td>
       <td>{{room.hotel.state| capfirst}}</td>
@@ -46,6 +46,7 @@
         <th>Person</th>
         <th>check in</th>
         <th>check out</th>
+        <th>Price</th>
         <th>Number</th>
         <th>Trx Id</th>
         <th>Status</th>
@@ -58,6 +59,7 @@
         <td>{{each_detail.room.capacity}}</td>
         <td>{{each_detail.check_in}}</td>
         <td>{{each_detail.check_out}}</td>
+        <td>{{each_detail.total_price}}</td>
         <td>{{each_detail.payment_number}}</td>
         <td>{{each_detail.trnxid}}</td>  
         <td>{{each_detail.get_status_display}}</td>

@@ -1,4 +1,5 @@
 {% extends 'basic.html' %} {% block title %} staff panel {% endblock title %} 
+
 {%block css %}
 <style>
   .progress {
@@ -96,140 +97,6 @@
 {% endblock css %} 
 
 {% block body %}
-<!--Staff section -->
-
-<!--Room Stats section starts here-->
-
-<!-- <section class="my-5">
-  {%load app_tags%}
-  <h2 class="text-center text-primary">Room Stats</h2>
-  <div class="container-fluid px-5 py-5 border">
-    <div class="row">
-      <div class="col-xl-3 col-lg-6 col-sm-12 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">Total Rooms</h2>
-
-          
-          {% if total_rooms is not none %}
-          <div
-            class="progress mx-auto"
-            data-value="{{"
-            total_rooms|percentage:total_rooms}}
-          >
-            <span class="progress-left">
-              <span class="progress-bar border-primary"></span>
-            </span>
-            <span class="progress-right">
-              <span class="progress-bar border-primary"></span>
-            </span>
-            <div
-              class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center"
-            >
-              <div class="h2 font-weight-bold">{{ total_rooms}}</div>
-            </div>
-          </div>
-          {% endif %}
-         
-        </div>
-      </div>
-
-      <div class="col-xl-3 col-lg-6 col-sm-12 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">Available Rooms</h2>
-
-          
-          {% if total_rooms is not none %}
-          <div
-            class="progress mx-auto"
-            data-value="{{"
-            available|percentage:total_rooms}}
-          >
-            <span class="progress-left">
-              <span class="progress-bar border-success"></span>
-            </span>
-            <span class="progress-right">
-              <span class="progress-bar border-success"></span>
-            </span>
-            <div
-              class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center"
-            >
-              <div class="h2 font-weight-bold">{{ available}}</div>
-            </div>
-          </div>
-          {% endif %}
-          
-        </div>
-      </div>
-
-      <div class="col-xl-3 col-lg-6 col-sm-12 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">Not Available</h2>
-
-          
-          {% if total_rooms is not none %}
-          <div
-            class="progress mx-auto"
-            data-value="{{"
-            unavailable|percentage:total_rooms}}
-          >
-            <span class="progress-left">
-              <span class="progress-bar border-danger"></span>
-            </span>
-            <span class="progress-right">
-              <span class="progress-bar border-danger"></span>
-            </span>
-            <div
-              class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center"
-            >
-              <div class="h2 font-weight-bold">{{ unavailable}}</div>
-            </div>
-          </div>
-          {% endif %}
-          
-        </div>
-      </div>
-
-      <div class="col-xl-3 col-lg-6 col-sm-12 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">
-            Total Reservation
-          </h2>
-
-          
-          {% if total_rooms is not none %}
-          <div
-            class="progress mx-auto"
-            data-value="{{reserved"
-            |percentage:total_rooms}}
-          >
-            <span class="progress-left">
-              <span class="progress-bar border-warning"></span>
-            </span>
-            <span class="progress-right">
-              <span class="progress-bar border-warning"></span>
-            </span>
-            <div
-              class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center"
-            >
-              <div class="h2 font-weight-bold">{{reserved}}</div>
-            </div>
-          </div>
-          {% endif %}
-        
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
--->
-<!--Room Stats section ends here-->
-
-
-
-
-
-
-
 
 
 
@@ -253,12 +120,13 @@
 <button
   class="btn-group btn-primary"
   data-toggle="modal"
-  data-target="#newlocation"
->
+  data-target="#newlocation">
   Add New Hotel
 </button>
 
-<button class="btn-primary"> <a href="{% url 'staff_report' %}" style="color: #fff; text-decoration: none;">Report </a>  </button>
+<button class="btn-primary"> <a href="{% url 'pdf' %}" style="color: #fff; text-decoration: none;">Report </a>  </button>
+
+
 
 
 
@@ -283,9 +151,9 @@
     <td>{{each_room.hotel.state}}</td>
     <td>{{each_room.get_room_type_display}}</td>
     <td>{{each_room.get_status_display}}</td>
-    <td>{{each_room.price}}</td>
-    <td>{{each_room.capacity}}</td>
-    <td>{{each_room.size}}</td>
+    <td>{{each_room.price}} Tk/day</td>
+    <td>{{each_room.capacity}} person</td>
+    <td>{{each_room.size}} sq mt</td>
     <td colspan="2">
       <a href="/staff/panel/edit-room?roomid={{each_room.id}}"
         ><button class="btn btn-danger">Edit</button></a
@@ -407,7 +275,7 @@
                   <select class="form-control" name="roomtype" id="roomtype">
                     <option value="1">Premium</option>
                     <option value="2">Deluxe</option>
-                    <option value="3">Basic</option>
+                    <option value="3">Economi</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -460,7 +328,7 @@
 
 
                 
-
+                
 
                 <div class="form-group">
                   <label for="pwd">Status:</label>
@@ -469,6 +337,8 @@
                     <option value="2">Not Available</option>
                   </select>
                 </div>
+               
+
                 <div class="form-group">
                   <label for="pwd">Hotel:</label>
 
@@ -489,7 +359,34 @@
 </div>
 <!--Modal for Add New Room Ends here-->
 
-{% endblock body %} {% block js %}
+<footer class="" style="text-align: center;">
+
+            <div class="abc" style="background-color: #007BFF; margin-top: 200px; ">
+
+              <p style="padding:10px; color: #fff; margin: 0;">
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                All rights reserved by Hotel Reservation System
+            </p>
+
+            </div>  
+                  
+              
+          
+      
+</footer>
+
+{% endblock body %}
+
+
+
+
+
+
+
+
+
+
+{% block js %}
 <!-- jquery for rooms stats  starts here-->
 <script>
   $(function () {
